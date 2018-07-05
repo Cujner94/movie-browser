@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900');
+
+html{
+	box-sizing: border-box;
+	height: 100%;
+	font-size: 62.5%;
+	font-family: "Source Sans Pro", sans-serif;
+}
+
+*, *::before, *::after{
+	margin: 0;
+	padding: 0;
+	box-sizing: inherit;
+}
+
+body{
+	min-height: 100%;
+	font-size: 1.6rem;
+}
+
+ol, ul {
+	list-style: none;
+}
