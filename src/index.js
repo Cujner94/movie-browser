@@ -10,7 +10,8 @@ const API_KEY = 'b41936b8ed0f4f2f3e076cf8f2d3af29';
 class App extends Component{
 	
 	state = { 
-		query: 'movies'
+		searchType: 'movies',
+		query: ''
 	}
 	
 	getInfo = () => {
@@ -18,7 +19,13 @@ class App extends Component{
 	}
 	
 	handleChange = (e) => {
+		this.setState({searchType: e.target.value})
+	}
+	
+	handleSubmit = (e) => {
+		e.preventDefault();
 		this.setState({query: e.target.value})
+		console.dir(e.target[0].value);
 	}
 	
 	render(){
@@ -26,8 +33,10 @@ class App extends Component{
 			<Router>
 				<div>
 					
-					<input type="text" placeholder="Search..."/>
-					<select onChange={this.handleChange} name="type" id="selector">
+					<form onSubmit={this.handleSubmit}>
+						<input type="text" value={this.state.query} placeholder="Search..."/>
+					</form>
+					<select onChange={this.handleChange} name="type" value={this.state.searchType} id="selector">
 						<option value="movies">Movies</option>
 						<option value="tv">Tv Shows</option>
 					</select>
