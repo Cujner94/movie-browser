@@ -4,7 +4,6 @@ html{
 	height: 100%;
 	font-size: 62.5%;
 	font-family: "Source Sans Pro", sans-serif;
-	background-color: red;
 }
 
 *, *::before, *::after{
@@ -20,5 +19,8 @@ body{
 
 ol, ul {
 	list-style: none;
+}
+
+ul div {
 	display: inline-block;
 }
