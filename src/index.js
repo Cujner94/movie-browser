@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
+import style from "./style/main.css";
 import Home from './components/home';
 
 const API_KEY = 'b41936b8ed0f4f2f3e076cf8f2d3af29';
