@@ -38,14 +38,16 @@ export class TrendingMovies extends Component{
 			<div>
 				<h3>This is trending movies</h3>
 				<button onClick={this.getInfo}>Check Movies</button>
-				{
-					this.state.movie.map(element => (
-					<ul key={element.id}>
-						<img src={`https://image.tmdb.org/t/p/w185${element.poster_path}`} alt="Movie poster"/>
-						<li>{element.title}</li>
-					</ul>
-					) )
-				}
+				<ul>
+					{
+						this.state.movie.map(element => (
+						<div key={element.id}>
+							<img src={`https://image.tmdb.org/t/p/w185${element.poster_path}`} alt="Movie poster"/>
+							<li>{element.title}</li>
+						</div>
+						) )
+					}
+				</ul>
 			</div>
 		)
 	}
@@ -75,14 +77,16 @@ export class TrendingTv extends Component{
 			<div>
 				<h3>This is trending tv</h3>
 				<button onClick={this.getInfo}>Check Tv</button>
-				{
-					this.state.tv.map(element => (
-						<ul key={element.id}>
-							<img src={`https://image.tmdb.org/t/p/w185${element.poster_path}`} alt="Tv poster"/>
-							<li>{element.name}</li>
-						</ul>
-					))
-				}
+				<ul>
+					{
+						this.state.tv.map(element => (
+							<div key={element.id}>
+								<img src={`https://image.tmdb.org/t/p/w185${element.poster_path}`} alt="Tv poster"/>
+								<li>{element.name}</li>
+							</div>
+						))
+					}
+				</ul>
 			</div>
 		)
 	}

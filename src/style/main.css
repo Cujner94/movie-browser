@@ -20,5 +20,8 @@ body{
 
 ol, ul {
 	list-style: none;
+}
+
+ul div {
 	display: inline-block;
 }
