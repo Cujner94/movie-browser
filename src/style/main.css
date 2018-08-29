@@ -25,3 +25,11 @@ ol, ul {
 ul div {
 	display: inline-block;
 }
+
+.trending-containers{
+	border: 2px solid black;
+	height: 350px;
+	overflow-x: scroll;
+	overflow-y: hidden;
+	white-space: nowrap;
+}

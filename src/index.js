@@ -23,6 +23,10 @@ class App extends Component{
 		this.setState({searchType: e.target.value})
 	}
 	
+	handleInput = (e) => {
+		this.setState({query: e.target.value})
+	}
+	
 	handleSubmit = (e) => {
 		e.preventDefault();
 		this.setState({query: e.target.value})
@@ -35,7 +39,7 @@ class App extends Component{
 				<div>
 					
 					<form onSubmit={this.handleSubmit}>
-						<input type="text" value={this.state.query} placeholder="Search..."/>
+						<input type="text" onChange={this.handleInput} value={this.state.query} placeholder="Search..."/>
 					</form>
 					<select onChange={this.handleChange} name="type" value={this.state.searchType} id="selector">
 						<option value="movies">Movies</option>

@@ -38,7 +38,7 @@ export class TrendingMovies extends Component{
 			<div>
 				<h3>This is trending movies</h3>
 				<button onClick={this.getInfo}>Check Movies</button>
-				<ul>
+				<ul className="trending-containers" id="trending-movie-container">
 					{
 						this.state.movie.map(element => (
 						<div key={element.id}>
@@ -77,7 +77,7 @@ export class TrendingTv extends Component{
 			<div>
 				<h3>This is trending tv</h3>
 				<button onClick={this.getInfo}>Check Tv</button>
-				<ul>
+				<ul className="trending-containers" id="trending-tv-container">
 					{
 						this.state.tv.map(element => (
 							<div key={element.id}>
