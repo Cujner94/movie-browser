@@ -22,16 +22,12 @@ class App extends Component{
 	}
 	
 	handleChange = (e) => {
-		this.setState({searchType: e.target.value})
-	}
-	
-	handleInput = (e) => {
-		this.setState({query: e.target.value})
+		this.setState({[e.target.id]: e.target.value, isSearching: false})
 	}
 	
 	handleSubmit = (e) => {
 		e.preventDefault();
-		
+		this.setState({isSearching: true})
 	}
 	
 	render(){
@@ -40,20 +36,28 @@ class App extends Component{
 				<div id="main-container">
 					
 					<section id="form-container">
+					
 						<form onSubmit={this.handleSubmit}>
-							<input id="input-text" type="text" onChange={this.handleInput} value={this.state.query} placeholder="Search..."/>
-							<Link to="/movies/lala">Go!</Link>
+							<input id="query" type="text" onChange={this.handleChange} value={this.state.query} placeholder="Search..."/>
 						</form>
-						<select onChange={this.handleChange} name="type" value={this.state.searchType} id="selector">
+						<select onChange={this.handleChange} name="type" value={this.state.searchType} id="searchType">
 							<option value="movies">Movies</option>
 							<option value="tv">Tv Shows</option>
 						</select>
+						
 					</section>
 					
 					<button onClick={this.getInfo}>State Check</button>
 					
-					<Route exact path="/" component={Home}/>
-					<Route path="/movies/lala" component={Search}/>
+					<Route exact path="/" render={ () => (
+						this.state.isSearching ? (
+							<Redirect to={`/${this.state.searchType}/${this.state.query}`}/>
+						)	: (
+							<Home/>
+						)
+					)}/>
+					
+					<Route path="/:searchType/:query" component={Search}/>
 					
 				</div>
 			</Router>
