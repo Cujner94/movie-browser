@@ -49,14 +49,9 @@ class App extends Component{
 					
 					<button onClick={this.getInfo}>State Check</button>
 					
-					<Route exact path="/" render={ () => (
-						this.state.isSearching ? (
-							<Redirect to={`/${this.state.searchType}/${this.state.query}`}/>
-						)	: (
-							<Home/>
-						)
-					)}/>
+					{this.state.isSearching ? <Redirect key="from-search" to={`/${this.state.searchType}/${this.state.query}`}/> : ""}
 					
+					<Route exact path="/" component={Home}/>
 					<Route path="/:searchType/:query" component={Search}/>
 					
 				</div>
