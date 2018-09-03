@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Redirect, Switch } from 'react-router-dom';
 
 import style from "./style/main.css";
 import Home from './components/home';
@@ -12,9 +12,8 @@ const API_KEY = 'b41936b8ed0f4f2f3e076cf8f2d3af29';
 class App extends Component{
 	
 	state = { 
-		searchType: 'movies',
-		query: '',
-		isSearching: false
+		searchType: 'movie',
+		query: ''
 	}
 	
 	getInfo = () => {
@@ -22,12 +21,11 @@ class App extends Component{
 	}
 	
 	handleChange = (e) => {
-		this.setState({[e.target.id]: e.target.value, isSearching: false})
+		this.setState({[e.target.id]: e.target.value})
 	}
 	
 	handleSubmit = (e) => {
 		e.preventDefault();
-		this.setState({isSearching: true})
 	}
 	
 	render(){
@@ -39,9 +37,10 @@ class App extends Component{
 					
 						<form onSubmit={this.handleSubmit}>
 							<input id="query" type="text" onChange={this.handleChange} value={this.state.query} placeholder="Search..."/>
+							<Link to={`/${this.state.searchType}/${this.state.query}`}>Go!</Link>
 						</form>
 						<select onChange={this.handleChange} name="type" value={this.state.searchType} id="searchType">
-							<option value="movies">Movies</option>
+							<option value="movie">Movies</option>
 							<option value="tv">Tv Shows</option>
 						</select>
 						
@@ -49,10 +48,11 @@ class App extends Component{
 					
 					<button onClick={this.getInfo}>State Check</button>
 					
-					{this.state.isSearching ? <Redirect key="from-search" to={`/${this.state.searchType}/${this.state.query}`}/> : ""}
-					
-					<Route exact path="/" component={Home}/>
-					<Route path="/:searchType/:query" component={Search}/>
+					<Switch>
+						<Route exact path="/" component={Home}/>
+						<Route path="/:searchType/:query" component={Search}/>
+						<Route component={Home}/>
+					</Switch>
 					
 				</div>
 			</Router>
