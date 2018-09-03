@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 
 class Trending extends Component{
 	render(){
 		return(
-			<div>
+			<Fragment>
 				<h1>This is Trending</h1>
 				<TrendingMovies/>
 				<TrendingTv/>				
-			</div>
+			</Fragment>
 		)
 	}
 }
@@ -35,9 +35,8 @@ export class TrendingMovies extends Component{
 	render(){
 		
 		return(
-			<div>
+			<div className="trending-main">
 				<h3>This is trending movies</h3>
-				<button onClick={this.getInfo}>Check Movies</button>
 				<ul className="trending-containers" id="trending-movie-container">
 					{
 						this.state.movie.map(element => (
@@ -74,9 +73,8 @@ export class TrendingTv extends Component{
 	
 	render(){
 		return(
-			<div>
+			<div className="trending-main">
 				<h3>This is trending tv</h3>
-				<button onClick={this.getInfo}>Check Tv</button>
 				<ul className="trending-containers" id="trending-tv-container">
 					{
 						this.state.tv.map(element => (

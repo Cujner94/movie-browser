@@ -6,8 +6,10 @@ import Trending from './trending';
 class Home extends Component{
 	render(){
 		return(
-			<div>
-				Sup Home
+			<div id="home-container">
+				<h2>
+					Sup Home
+				</h2>
 				<Trending/>
 			</div>
 		)
