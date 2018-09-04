@@ -18,17 +18,16 @@ body{
 	font-size: 1.6rem;
 }
 
-ol, ul {
+ol, ul, li {
 	list-style: none;
 }
 
-ul div {
+.trending-containers a {
 	display: inline-block;
 }
 
 /* ====================================== */
 #form-container{
-	margin-top: 40px;
 	display: grid;
 	justify-content: center;
 	grid-template-columns: auto 100px;
@@ -58,4 +57,8 @@ ul div {
 	overflow-x: scroll;
 	overflow-y: hidden;
 	white-space: nowrap;
+}
+
+.item-container{
+	display: inline-block;
 }

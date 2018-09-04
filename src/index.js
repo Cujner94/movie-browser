@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Route, Link, Redirect, Switch } from 'react-ro
 import style from "./style/main.css";
 import Home from './components/home';
 import Search from './components/search';
+import NavBar from './components/nav';
+import ItemDetails from './components/itemDetail';
 
 const API_KEY = 'b41936b8ed0f4f2f3e076cf8f2d3af29';
 // TODO: MOVE API KEY, LINKS AND OTHER CONST DATA TO OTHER FILE 
@@ -33,6 +35,8 @@ class App extends Component{
 			<Router>
 				<div id="main-container">
 					
+					<NavBar/>
+					
 					<section id="form-container">
 					
 						<form onSubmit={this.handleSubmit}>
@@ -42,14 +46,14 @@ class App extends Component{
 						<select onChange={this.handleChange} name="type" value={this.state.searchType} id="searchType">
 							<option value="movie">Movies</option>
 							<option value="tv">Tv Shows</option>
+							<option value="person">People</option>
 						</select>
 						
 					</section>
 					
-					<button onClick={this.getInfo}>State Check</button>
-					
 					<Switch>
 						<Route exact path="/" component={Home}/>
+						<Route path="/about/:searchType" component={ItemDetails}/>
 						<Route path="/:searchType/:query" component={Search}/>
 						<Route component={Home}/>
 					</Switch>

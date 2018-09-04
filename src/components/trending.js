@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-
+import {Link} from "react-router-dom"
 
 class Trending extends Component{
 	render(){
@@ -21,12 +21,10 @@ export class TrendingMovies extends Component{
 		movie: []
 	}
 	
-	getInfo = () => {
-		console.log(this.state.movie);
-	}
-	
 	componentDidMount(){
-		const urlMovie = 'https://api.themoviedb.org/3/trending/movie/week?api_key=b41936b8ed0f4f2f3e076cf8f2d3af29'
+		const urlMovie = 'https://api.themoviedb.org/3/trending/movie/week?api_key=b41936b8ed0f4f2f3e076cf8f2d3af29';
+		
+		// Grabbing the Trending movies and putting it into state
 		fetch(urlMovie)
 			.then(result => result.json())
 			.then(result => this.setState({ movie: result.results }))
@@ -37,16 +35,17 @@ export class TrendingMovies extends Component{
 		return(
 			<div className="trending-main">
 				<h3>This is trending movies</h3>
-				<ul className="trending-containers" id="trending-movie-container">
+				<div className="trending-containers" id="trending-movie-container">
 					{
 						this.state.movie.map(element => (
-						<div key={element.id}>
+						// Putting every Movie into Link container
+						<Link to={`/about/movie?id=${element.id}`} key={element.id}>
 							<img src={`https://image.tmdb.org/t/p/w185${element.poster_path}`} alt="Movie poster"/>
-							<li>{element.title}</li>
-						</div>
+							<p>{element.title}</p>
+						</Link>
 						) )
 					}
-				</ul>
+				</div>
 			</div>
 		)
 	}
@@ -60,12 +59,10 @@ export class TrendingTv extends Component{
 		tv:[]
 	}
 	
-	getInfo = () => {
-		console.log(this.state.tv);
-	}
-	
 	componentDidMount(){
-		const urlTv = 'https://api.themoviedb.org/3/trending/tv/week?api_key=b41936b8ed0f4f2f3e076cf8f2d3af29'
+		const urlTv = 'https://api.themoviedb.org/3/trending/tv/week?api_key=b41936b8ed0f4f2f3e076cf8f2d3af29';
+		
+		// Grabbing the Trending TV shows and putting it into state
 		fetch(urlTv)
 			.then(result => result.json())
 			.then(result => this.setState({ tv: result.results }))
@@ -75,16 +72,17 @@ export class TrendingTv extends Component{
 		return(
 			<div className="trending-main">
 				<h3>This is trending tv</h3>
-				<ul className="trending-containers" id="trending-tv-container">
+				<div className="trending-containers" id="trending-tv-container">
 					{
 						this.state.tv.map(element => (
-							<div key={element.id}>
+							// Putting every TV show into Link container
+							<Link to={`/about/tv?id=${element.id}`} key={element.id}>
 								<img src={`https://image.tmdb.org/t/p/w185${element.poster_path}`} alt="Tv poster"/>
-								<li>{element.name}</li>
-							</div>
+								<p>{element.name}</p>
+							</Link>
 						))
 					}
-				</ul>
+				</div>
 			</div>
 		)
 	}
