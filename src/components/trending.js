@@ -36,15 +36,7 @@ export class TrendingMovies extends Component{
 			<div className="trending-main">
 				<h3>This is trending movies</h3>
 				<div className="trending-containers" id="trending-movie-container">
-					{
-						this.state.movie.map(element => (
-						// Putting every Movie into Link container
-						<Link to={`/about/movie?id=${element.id}`} key={element.id}>
-							<img src={`https://image.tmdb.org/t/p/w185${element.poster_path}`} alt="Movie poster"/>
-							<p>{element.title}</p>
-						</Link>
-						) )
-					}
+					<DisplayItems type="movie" item={this.state.movie}/>					
 				</div>
 			</div>
 		)
@@ -73,17 +65,27 @@ export class TrendingTv extends Component{
 			<div className="trending-main">
 				<h3>This is trending tv</h3>
 				<div className="trending-containers" id="trending-tv-container">
-					{
-						this.state.tv.map(element => (
-							// Putting every TV show into Link container
-							<Link to={`/about/tv?id=${element.id}`} key={element.id}>
-								<img src={`https://image.tmdb.org/t/p/w185${element.poster_path}`} alt="Tv poster"/>
-								<p>{element.name}</p>
-							</Link>
-						))
-					}
+					<DisplayItems type="tv" item={this.state.tv}/>
 				</div>
 			</div>
+		)
+	}
+}
+
+export class DisplayItems extends Component{
+	render(){
+		return(
+			<Fragment>
+				{
+					this.props.item.map(element => (
+						// Putting every TV show into Link container
+						<Link to={`/about/${this.props.type}?id=${element.id}`} key={element.id}>
+							<img src={`https://image.tmdb.org/t/p/w185${element.poster_path}`} alt="Poster"/>
+							<p>{element.title || element.name}</p>
+						</Link>
+					))
+				}
+			</Fragment>
 		)
 	}
 }
