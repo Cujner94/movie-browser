@@ -1,6 +1,6 @@
 import React, {Component,Fragment} from 'react';
 
-import {DisplayItems} from './trending';
+import DisplayItems from './displayItems';
 
 const API_KEY = `b41936b8ed0f4f2f3e076cf8f2d3af29`;
 
