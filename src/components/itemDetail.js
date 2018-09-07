@@ -1,4 +1,5 @@
 import React, {Component,Fragment} from 'react';
+import {Link} from "react-router-dom";
 
 import DisplayItems from './displayItems';
 
@@ -44,8 +45,7 @@ class MovieComponent extends Component{
 		const id = this.props.id;
 		const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US&append_to_response=credits,similar`;
 		
-		// Fetching data for movie detail
-		fetch(url).then(result => result.json()).then(data => this.setState({data, isLoading: false}));
+		fetch(url).then(result => result.json()).then(data => this.setState({data, isLoading: false})); // Fetching data for movie detail
 	}
 	
 	componentDidMount(){
@@ -86,7 +86,7 @@ class MovieComponent extends Component{
 						vote_average, 
 						poster_path, 
 						credits, 
-						similar} = this.state.data;
+						similar } = this.state.data;
 						
 		// IMAGE URL
 		const imageURL= `https://image.tmdb.org/t/p/w342/${poster_path}`;
@@ -95,38 +95,36 @@ class MovieComponent extends Component{
 		return(
 			<div>
 				
-				{/* MOVIE DETAILS */}
 				<img src={imageURL} alt="Movie Poster"/>
 				<h1>{title}</h1>
 				<h2>Runtime: {runtime}min</h2>
 				<h3>Release Date : {this.displayDate(release_date)} ({status})</h3>
 				<p>{overview}</p>
 				
-				{/* GENGRE */}
 				<h2>Genre:</h2>
 				{genres.map(({id, name}) =>(
 					<li key={id}>{name}</li>
 				))}
 				
-				{/* PRODUCTION COMPANIES */}
 				<h2>Production Companies:</h2>
 				{production_companies.map(({id, name}) => (
 					<li key={id}>{name}</li>
 				))}
 				
-				{/* VOTE AVERAGE */}
 				<p><b>Vote Average:</b> {vote_average}</p>
 				
-				{/* CAST */}
 				<ul>
 					{credits.cast.map(({id, character, name}) => (
 						<li key={id}>
-							<p><b>{name}</b> as <b>{character}</b></p>
+							<p>
+								<Link to={`/about/person?id=${id}`}>
+									<b>{name}</b>
+								</Link> as <b>{character}</b>
+							</p>
 						</li>
 					))}
 				</ul>
 				
-				{/* SIMILAR MOVIES */}
 				<div className="trending-containers">
 					<DisplayItems type="movie" item={similar.results} />
 				</div>
@@ -147,8 +145,7 @@ class TvComponent extends Component{
 		const id = this.props.id;
 		const url = `https://api.themoviedb.org/3/tv/${id}?api_key=${API_KEY}&language=en-US&append_to_response=similar`;
 		
-		// Fetching data for movie detail
-		fetch(url).then(result => result.json()).then(data => this.setState({data, isLoading: false}));
+		fetch(url).then(result => result.json()).then(data => this.setState({data, isLoading: false})); // Fetching data for movie detail
 	}
 	
 	componentDidMount(){
@@ -190,8 +187,7 @@ class TvComponent extends Component{
 						vote_average,
 						networks,
 						status,
-						similar
-		} = this.state.data;
+						similar } = this.state.data;
 		
 		// IMAGE URL
 		const imageURL= `https://image.tmdb.org/t/p/w342/${poster_path}`;
@@ -224,16 +220,67 @@ class TvComponent extends Component{
 // PERSON COMPONENT
 class PersonComponent extends Component{
 	
-	componentDidMount(){
-		console.log("Person Mounted");
+	state={
+		data : [],
+		isLoading: true
+	}
+	
+	fetchData = () => {
 		const id = this.props.id;
-		// Fetching data for person detail
+		const url = `https://api.themoviedb.org/3/person/${id}?api_key=${API_KEY}&language=en-US&append_to_response=combined_credits
+		`;
+		
+		fetch(url).then(result => result.json()).then(data => this.setState({data, isLoading: false})); // Fetching data for movie detail
+	}
+	
+	componentDidMount(){
+		this.fetchData();
+	}
+	
+	componentDidUpdate(prevProps){
+		if (this.props.location.search !== prevProps.location.search || this.props.location.pathname !== prevProps.location.pathname) {
+			this.fetchData();
+		}
+	}
+	
+	displayDate = (date) => {
+		const newDate = new Date(date);
+		const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
+		const day   = newDate.getDate();
+		const month = monthNames[newDate.getMonth()];
+		const year  = newDate.getFullYear();
+		
+		return `${day} ${month} ${year}`;
 	}
 	
 	render(){
+		// IF DATA IS NOT FETCHED DISPLAY LOADING TO ESCAPE ERRORS
+		if (this.state.isLoading) {
+			return <h1>Loading</h1>
+		}
+		
+		const { birthday,
+						known_for_department,
+						deathday,
+						name,
+						biography,
+						place_of_birth,
+						profile_path,
+						combined_credits } = this.state.data;
+						
+		// IMAGE URL
+		const imageURL= `https://image.tmdb.org/t/p/h632/${profile_path}`;
+		
 		return(
 			<div>
-				<h1>Person Component</h1>
+				<img src={imageURL} alt="Profile Picture"/>
+				<h1>{name}</h1>
+				<h2>{known_for_department}</h2>
+				<h2>Born: {this.displayDate(birthday)} in {place_of_birth}</h2>
+				{deathday ? <h2>Died: {this.displayDate(deathday)}</h2> : ""}
+				
+				<p>{biography}</p>
+				
 			</div>
 		)
 	}
