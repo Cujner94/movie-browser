@@ -6,6 +6,18 @@ import DisplayItems from './displayItems';
 const API_KEY = `b41936b8ed0f4f2f3e076cf8f2d3af29`;
 
 class ItemDetails extends Component{
+	
+	// CONVERT DATE
+	displayDate = (date) => {
+		const newDate = new Date(date);
+		const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
+		const day   = newDate.getDate();
+		const month = monthNames[newDate.getMonth()];
+		const year  = newDate.getFullYear();
+		
+		return `${day} ${month} ${year}`;
+	}
+	
 	render(){
 		const id = this.props.location.search.slice(4);
 		const searchType = this.props.match.params.searchType;
@@ -14,13 +26,13 @@ class ItemDetails extends Component{
 		// Checking for what type of component to render
 		switch (searchType) {
 			case 'movie':
-				renderThis = <MovieComponent location={this.props.location} id={id} />
+				renderThis = <MovieComponent displayDate={this.displayDate} location={this.props.location} id={id} />
 				break;
 			case 'tv':
-				renderThis = <TvComponent location={this.props.location} id={id} />
+				renderThis = <TvComponent displayDate={this.displayDate} location={this.props.location} id={id} />
 				break;
 			case 'person':
-				renderThis = <PersonComponent location={this.props.location} id={id} />
+				renderThis = <PersonComponent displayDate={this.displayDate} location={this.props.location} id={id} />
 				break;	
 		}
 		
@@ -58,22 +70,14 @@ class MovieComponent extends Component{
 		}
 	}
 	
-	// CONVERT DATE
-	displayDate = (date) => {
-		const newDate = new Date(date);
-		const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
-		const day   = newDate.getDate();
-		const month = monthNames[newDate.getMonth()];
-		const year  = newDate.getFullYear();
-		
-		return `${day} ${month} ${year}`;
-	}
-	
 	render(){
 		// IF DATA IS NOT FETCHED DISPLAY LOADING TO ESCAPE ERRORS
 		if (this.state.isLoading) {
 			return <h1>Loading</h1>
 		}
+		
+		// PUTTING PROPS IN A CONST FOR EASIER READ
+		const displayDate = this.props.displayDate;
 		
 		// DECONSTRUCTING STATE INTO VARIABLES THAT ARE NEEDED IN COMPONENT
 		const {	genres, 
@@ -98,7 +102,7 @@ class MovieComponent extends Component{
 				<img src={imageURL} alt="Movie Poster"/>
 				<h1>{title}</h1>
 				<h2>Runtime: {runtime}min</h2>
-				<h3>Release Date : {this.displayDate(release_date)} ({status})</h3>
+				<h3>Release Date : {displayDate(release_date)} ({status})</h3>
 				<p>{overview}</p>
 				
 				<h2>Genre:</h2>
@@ -144,6 +148,7 @@ class TvComponent extends Component{
 	fetchData = () => {
 		const id = this.props.id;
 		const url = `https://api.themoviedb.org/3/tv/${id}?api_key=${API_KEY}&language=en-US&append_to_response=similar`;
+		this.setState({data:[], isLoading:true})
 		
 		fetch(url).then(result => result.json()).then(data => this.setState({data, isLoading: false})); // Fetching data for movie detail
 	}
@@ -158,22 +163,16 @@ class TvComponent extends Component{
 		}
 	}
 	
-	// CONVERT DATE
-	displayDate = (date) => {
-		const newDate = new Date(date);
-		const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
-		const day   = newDate.getDate();
-		const month = monthNames[newDate.getMonth()];
-		const year  = newDate.getFullYear();
-		
-		return `${day} ${month} ${year}`;
-	}
+	// TODO: ADD SEASON NAVIGATION 
 	
 	render(){
 		// IF DATA IS NOT FETCHED DISPLAY LOADING TO ESCAPE ERRORS
 		if (this.state.isLoading) {
 			return <h1>Loading</h1>
 		}
+		
+		// PUTTING PROPS IN A CONST FOR EASIER READ
+		const displayDate = this.props.displayDate;
 		
 		const { first_air_date,
 						genres,
@@ -189,6 +188,7 @@ class TvComponent extends Component{
 						status,
 						similar } = this.state.data;
 		
+		
 		// IMAGE URL
 		const imageURL= `https://image.tmdb.org/t/p/w342/${poster_path}`;
 		
@@ -197,8 +197,8 @@ class TvComponent extends Component{
 				<img src={imageURL} alt="Tv Poster"/>
 				<h1>{name}</h1>
 				<h2>Number of seasons: {number_of_seasons} ({number_of_episodes} episodes)</h2>
-				<h4>First air : {this.displayDate(first_air_date)}</h4>
-				<h4>Last episode : {this.displayDate(last_air_date)}</h4>
+				<h4>First air : {displayDate(first_air_date)}</h4>
+				<h4>Last episode : {displayDate(last_air_date)}</h4>
 				<p>{overview}</p>
 				
 				<h2>Genre:</h2>
@@ -209,6 +209,11 @@ class TvComponent extends Component{
 				<p><b>Vote Average:</b> {vote_average}</p>
 				<h2>Status : {status}</h2>
 				
+				{seasons.map(({id, season_number}) => (
+					<TvSeasons key={id} location={this.props.location} id={this.props.id} season={season_number} />
+				))}
+				
+				<h2>Similar Shows</h2>
 				<div className="trending-containers">
 					<DisplayItems type="tv" item={similar.results} />
 				</div>
@@ -243,14 +248,9 @@ class PersonComponent extends Component{
 		}
 	}
 	
-	displayDate = (date) => {
-		const newDate = new Date(date);
-		const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
-		const day   = newDate.getDate();
-		const month = monthNames[newDate.getMonth()];
-		const year  = newDate.getFullYear();
-		
-		return `${day} ${month} ${year}`;
+	filterArray = (myArr, type) => {
+		const newArr = myArr.filter(element => element.media_type == type);
+		return newArr;
 	}
 	
 	render(){
@@ -258,6 +258,9 @@ class PersonComponent extends Component{
 		if (this.state.isLoading) {
 			return <h1>Loading</h1>
 		}
+		
+		// PUTTING PROPS IN A CONST FOR EASIER READ
+		const displayDate = this.props.displayDate;
 		
 		const { birthday,
 						known_for_department,
@@ -276,11 +279,75 @@ class PersonComponent extends Component{
 				<img src={imageURL} alt="Profile Picture"/>
 				<h1>{name}</h1>
 				<h2>{known_for_department}</h2>
-				<h2>Born: {this.displayDate(birthday)} in {place_of_birth}</h2>
-				{deathday ? <h2>Died: {this.displayDate(deathday)}</h2> : ""}
+				<h2>Born: {displayDate(birthday)} in {place_of_birth}</h2>
+				{deathday ? <h2>Died: {displayDate(deathday)}</h2> : ""}
 				
 				<p>{biography}</p>
 				
+				<div>
+					<h3>Cast</h3>
+					<div id="movie">
+						<h4>Movies:</h4>
+						{this.filterArray(combined_credits.cast,"movie").map(({character, title, id, media_type}) => ( //FIXME: REMOVE CODE REPEATING
+							<li key={id}>As {character ? character : "Unknown"} in <Link to={`/about/${media_type}?id=${id}`}>{title}</Link></li>
+						))}
+					</div>
+					<div id="tv">
+						<h4>Tv Shows:</h4>
+						{this.filterArray(combined_credits.cast,"tv").map(({character, name, id, media_type}) => (
+							<li key={id}>As {character ? character : "Unknown"} in <Link to={`/about/${media_type}?id=${id}`}>{name}</Link></li>
+						))}
+					</div>
+				</div>
+				
+			</div>
+		)
+	}
+}
+
+class TvSeasons extends Component{
+	
+	state={
+		data : [],
+		isLoading: true
+	}
+	
+	fetchData = () => {
+		let id = this.props.id;
+		let season = this.props.season;
+		
+		this.setState({data : [], isLoading:true});
+		
+		const url = `https://api.themoviedb.org/3/tv/${id}/season/${season}?api_key=${API_KEY}&language=en-US`;
+		fetch(url).then(result => result.json()).then(data => this.setState({data, isLoading: false}));
+		
+	}
+	
+	componentDidMount(){
+		this.fetchData();
+	}
+	
+	render(){
+		// IF DATA IS NOT FETCHED DISPLAY LOADING TO ESCAPE ERRORS
+		if (this.state.isLoading) {
+			return <h1>Loading</h1>
+		}
+		
+		const { episodes,
+						id,
+						name,
+						season_number } = this.state.data;
+		
+		
+		return(
+			<div>
+				<p>Season : {season_number}</p>
+				<p>Name : {name}</p>
+				<div>
+					{episodes.map(({id,name, episode_number}) =>(
+						<p key={id}>Episode {episode_number} - "{name}"</p>
+					))}
+				</div>
 			</div>
 		)
 	}
