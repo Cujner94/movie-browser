@@ -7,7 +7,7 @@ class Trending extends Component{
 	render(){
 		return(
 			<Fragment>
-				<h1>This is Trending</h1>
+				<h1>This is Trending Combined</h1>
 				<TrendingMovies/>
 				<TrendingTv/>				
 			</Fragment>

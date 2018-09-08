@@ -5,12 +5,18 @@ import DisplayItems from './displayItems';
 
 const API_KEY = `b41936b8ed0f4f2f3e076cf8f2d3af29`;
 
+
+// ----------------
+//MAIN SWITCH
+// ----------------
+
 class ItemDetails extends Component{
 	
 	// CONVERT DATE
 	displayDate = (date) => {
 		const newDate = new Date(date);
 		const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
+		
 		const day   = newDate.getDate();
 		const month = monthNames[newDate.getMonth()];
 		const year  = newDate.getFullYear();
@@ -26,13 +32,13 @@ class ItemDetails extends Component{
 		// Checking for what type of component to render
 		switch (searchType) {
 			case 'movie':
-				renderThis = <MovieComponent displayDate={this.displayDate} location={this.props.location} id={id} />
+				renderThis = <MovieComponent key={id} displayDate={this.displayDate} location={this.props.location} id={id} />
 				break;
 			case 'tv':
-				renderThis = <TvComponent displayDate={this.displayDate} location={this.props.location} id={id} />
+				renderThis = <TvComponent key={id} displayDate={this.displayDate} location={this.props.location} id={id} />
 				break;
 			case 'person':
-				renderThis = <PersonComponent displayDate={this.displayDate} location={this.props.location} id={id} />
+				renderThis = <PersonComponent key={id} displayDate={this.displayDate} location={this.props.location} id={id} />
 				break;	
 		}
 		
@@ -45,7 +51,11 @@ class ItemDetails extends Component{
 	}
 }
 
+
+// ----------------
 // MOVIE COMPONENT 
+// ----------------
+
 class MovieComponent extends Component{
 	
 	state={
@@ -53,33 +63,24 @@ class MovieComponent extends Component{
 		isLoading: true
 	}
 	
-	fetchData = () => {
+	
+	componentDidMount(){
 		const id = this.props.id;
 		const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US&append_to_response=credits,similar`;
+		
+		this.setState({data:[], isLoading:true})
 		
 		fetch(url).then(result => result.json()).then(data => this.setState({data, isLoading: false})); // Fetching data for movie detail
 	}
 	
-	componentDidMount(){
-		this.fetchData();
-	}
-	
-	componentDidUpdate(prevProps){
-		if (this.props.location.search !== prevProps.location.search || this.props.location.pathname !== prevProps.location.pathname) {
-			this.fetchData();
-		}
-	}
-	
 	render(){
-		// IF DATA IS NOT FETCHED DISPLAY LOADING TO ESCAPE ERRORS
-		if (this.state.isLoading) {
+		
+		if (this.state.isLoading) { // IF DATA IS NOT FETCHED DISPLAY LOADING TO ESCAPE ERRORS
 			return <h1>Loading</h1>
 		}
 		
-		// PUTTING PROPS IN A CONST FOR EASIER READ
-		const displayDate = this.props.displayDate;
+		const displayDate = this.props.displayDate; // PUTTING PROPS IN A CONST FOR EASIER READ
 		
-		// DECONSTRUCTING STATE INTO VARIABLES THAT ARE NEEDED IN COMPONENT
 		const {	genres, 
 						overview, 
 						production_companies, 
@@ -90,10 +91,9 @@ class MovieComponent extends Component{
 						vote_average, 
 						poster_path, 
 						credits, 
-						similar } = this.state.data;
+						similar } = this.state.data; // DECONSTRUCTING STATE INTO VARIABLES THAT ARE NEEDED IN COMPONENT
 						
-		// IMAGE URL
-		const imageURL= `https://image.tmdb.org/t/p/w342/${poster_path}`;
+		const imageURL= `https://image.tmdb.org/t/p/w342/${poster_path}`; // IMAGE URL
 		
 		// RENDERING MOVIE COMPONENT
 		return(
@@ -137,7 +137,11 @@ class MovieComponent extends Component{
 	}
 }
 
+
+// ----------------
 // TV COMPONENT
+// ----------------
+
 class TvComponent extends Component{
 	
 	state={
@@ -145,34 +149,22 @@ class TvComponent extends Component{
 		isLoading: true
 	}
 	
-	fetchData = () => {
+	componentDidMount(){
 		const id = this.props.id;
 		const url = `https://api.themoviedb.org/3/tv/${id}?api_key=${API_KEY}&language=en-US&append_to_response=similar`;
+		
 		this.setState({data:[], isLoading:true})
 		
 		fetch(url).then(result => result.json()).then(data => this.setState({data, isLoading: false})); // Fetching data for movie detail
 	}
 	
-	componentDidMount(){
-		this.fetchData();
-	}
-	
-	componentDidUpdate(prevProps){
-		if (this.props.location.search !== prevProps.location.search || this.props.location.pathname !== prevProps.location.pathname) {
-			this.fetchData();
-		}
-	}
-	
-	// TODO: ADD SEASON NAVIGATION 
-	
 	render(){
-		// IF DATA IS NOT FETCHED DISPLAY LOADING TO ESCAPE ERRORS
-		if (this.state.isLoading) {
+		
+		if (this.state.isLoading) { // IF DATA IS NOT FETCHED DISPLAY LOADING TO ESCAPE ERRORS
 			return <h1>Loading</h1>
 		}
 		
-		// PUTTING PROPS IN A CONST FOR EASIER READ
-		const displayDate = this.props.displayDate;
+		const displayDate = this.props.displayDate; // PUTTING PROPS IN A CONST FOR EASIER READ
 		
 		const { first_air_date,
 						genres,
@@ -188,9 +180,7 @@ class TvComponent extends Component{
 						status,
 						similar } = this.state.data;
 		
-		
-		// IMAGE URL
-		const imageURL= `https://image.tmdb.org/t/p/w342/${poster_path}`;
+		const imageURL= `https://image.tmdb.org/t/p/w342/${poster_path}`; // IMAGE URL
 		
 		return(
 			<div>
@@ -222,7 +212,11 @@ class TvComponent extends Component{
 	}
 }
 
+
+// ----------------
 // PERSON COMPONENT
+// ----------------
+
 class PersonComponent extends Component{
 	
 	state={
@@ -230,7 +224,7 @@ class PersonComponent extends Component{
 		isLoading: true
 	}
 	
-	fetchData = () => {
+	componentDidMount(){
 		const id = this.props.id;
 		const url = `https://api.themoviedb.org/3/person/${id}?api_key=${API_KEY}&language=en-US&append_to_response=combined_credits
 		`;
@@ -238,29 +232,19 @@ class PersonComponent extends Component{
 		fetch(url).then(result => result.json()).then(data => this.setState({data, isLoading: false})); // Fetching data for movie detail
 	}
 	
-	componentDidMount(){
-		this.fetchData();
-	}
-	
-	componentDidUpdate(prevProps){
-		if (this.props.location.search !== prevProps.location.search || this.props.location.pathname !== prevProps.location.pathname) {
-			this.fetchData();
-		}
-	}
-	
-	filterArray = (myArr, type) => {
+	filterArray = (myArr, type) => {  //FILTERING ARRAY FOR THE RIGHT TYPE OF MEDIA
 		const newArr = myArr.filter(element => element.media_type == type);
 		return newArr;
 	}
 	
 	render(){
-		// IF DATA IS NOT FETCHED DISPLAY LOADING TO ESCAPE ERRORS
-		if (this.state.isLoading) {
+		
+		if (this.state.isLoading) { // IF DATA IS NOT FETCHED DISPLAY LOADING TO ESCAPE ERRORS
 			return <h1>Loading</h1>
 		}
 		
-		// PUTTING PROPS IN A CONST FOR EASIER READ
-		const displayDate = this.props.displayDate;
+		
+		const displayDate = this.props.displayDate; // PUTTING PROPS IN A CONST FOR EASIER READ
 		
 		const { birthday,
 						known_for_department,
@@ -269,10 +253,9 @@ class PersonComponent extends Component{
 						biography,
 						place_of_birth,
 						profile_path,
-						combined_credits } = this.state.data;
+						combined_credits } = this.state.data; //Destructuring
 						
-		// IMAGE URL
-		const imageURL= `https://image.tmdb.org/t/p/h632/${profile_path}`;
+		const imageURL= `https://image.tmdb.org/t/p/h632/${profile_path}`; // IMAGE URL
 		
 		return(
 			<div>
@@ -288,14 +271,14 @@ class PersonComponent extends Component{
 					<h3>Cast</h3>
 					<div id="movie">
 						<h4>Movies:</h4>
-						{this.filterArray(combined_credits.cast,"movie").map(({character, title, id, media_type}) => ( //FIXME: REMOVE CODE REPEATING
-							<li key={id}>As {character ? character : "Unknown"} in <Link to={`/about/${media_type}?id=${id}`}>{title}</Link></li>
+						{this.filterArray(combined_credits.cast,"movie").map(({character, title, id, media_type, credit_id}) => ( //FIXME: REMOVE CODE REPEATING
+							<li key={credit_id}>As {character ? character : "Unknown"} in <Link to={`/about/${media_type}?id=${id}`}>{title}</Link></li>
 						))}
 					</div>
 					<div id="tv">
 						<h4>Tv Shows:</h4>
-						{this.filterArray(combined_credits.cast,"tv").map(({character, name, id, media_type}) => (
-							<li key={id}>As {character ? character : "Unknown"} in <Link to={`/about/${media_type}?id=${id}`}>{name}</Link></li>
+						{this.filterArray(combined_credits.cast,"tv").map(({character, name, id, media_type, credit_id}) => (
+							<li key={credit_id}>As {character ? character : "Unknown"} in <Link to={`/about/${media_type}?id=${id}`}>{name}</Link></li>
 						))}
 					</div>
 				</div>
@@ -305,6 +288,11 @@ class PersonComponent extends Component{
 	}
 }
 
+
+// ----------------
+// SEASON COMPONENT
+// ----------------
+
 class TvSeasons extends Component{
 	
 	state={
@@ -312,31 +300,26 @@ class TvSeasons extends Component{
 		isLoading: true
 	}
 	
-	fetchData = () => {
+	componentDidMount(){
 		let id = this.props.id;
 		let season = this.props.season;
+		const url = `https://api.themoviedb.org/3/tv/${id}/season/${season}?api_key=${API_KEY}&language=en-US`;
 		
 		this.setState({data : [], isLoading:true});
 		
-		const url = `https://api.themoviedb.org/3/tv/${id}/season/${season}?api_key=${API_KEY}&language=en-US`;
 		fetch(url).then(result => result.json()).then(data => this.setState({data, isLoading: false}));
-		
-	}
-	
-	componentDidMount(){
-		this.fetchData();
 	}
 	
 	render(){
-		// IF DATA IS NOT FETCHED DISPLAY LOADING TO ESCAPE ERRORS
-		if (this.state.isLoading) {
+		
+		if (this.state.isLoading) { // IF DATA IS NOT FETCHED DISPLAY LOADING TO ESCAPE ERRORS
 			return <h1>Loading</h1>
 		}
 		
 		const { episodes,
 						id,
 						name,
-						season_number } = this.state.data;
+						season_number } = this.state.data; //Destructuring
 		
 		
 		return(
