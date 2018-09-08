@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 
-import Trending from './trending';
+import NowPlaying from './inTheatres';
 
 class Home extends Component{
 	render(){
@@ -10,7 +10,7 @@ class Home extends Component{
 				<h2>
 					Sup Home
 				</h2>
-				<Trending/>
+				<NowPlaying/>
 			</div>
 		)
 	}
