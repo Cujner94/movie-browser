@@ -293,6 +293,7 @@ class PersonComponent extends Component{
 // SEASON COMPONENT
 // ----------------
 
+// FIXME: MANAGE SEASONS WITH A LOT OF EPISODES TO NOT SLOW DOWN BROWSER 
 class TvSeasons extends Component{
 	
 	state={
