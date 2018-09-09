@@ -6,11 +6,11 @@ class DisplayItems extends Component{
 		return(
 			<Fragment>
 				{
-					this.props.item.map(element => (
+					this.props.item.map(({id, poster_path, title, name, profile_path}) => (
 						// Putting every TV show into Link container
-						<Link to={`/about/${this.props.type}?id=${element.id}`} key={element.id}>
-							<img src={`https://image.tmdb.org/t/p/w185${element.poster_path}`} alt="Poster"/>
-							<p>{element.title || element.name}</p>
+						<Link className="item-container" to={`/about/${this.props.type}?id=${id}`} key={id}>
+							<img src={`https://image.tmdb.org/t/p/w185${poster_path || profile_path}`} alt="Poster"/>
+							<p>{title || name}</p>
 						</Link>
 					))
 				}

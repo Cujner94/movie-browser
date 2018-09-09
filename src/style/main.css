@@ -61,4 +61,5 @@ ol, ul, li {
 
 .item-container{
 	display: inline-block;
+	width: 185px;
 }
