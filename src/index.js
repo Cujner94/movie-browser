@@ -18,45 +18,45 @@ class App extends Component{
 		query: ''
 	}
 	
-	getInfo = () => {
-		console.log(this.state);
-	}
-	
 	handleChange = (e) => {
 		this.setState({[e.target.id]: e.target.value})
-	}
-	
-	handleSubmit = (e) => {
-		e.preventDefault();
 	}
 	
 	render(){
 		return(
 			<Router>
-				<div id="main-container">
+				<div>
 					
-					<NavBar/>
-					
-					<section id="form-container">
-					
-						<form onSubmit={this.handleSubmit}>
-							<input id="query" type="text" onChange={this.handleChange} value={this.state.query} placeholder="Search..."/>
-							<Link to={`/${this.state.searchType}/${this.state.query}`}>Go!</Link>
-						</form>
-						<select onChange={this.handleChange} name="type" value={this.state.searchType} id="searchType">
-							<option value="movie">Movies</option>
-							<option value="tv">Tv Shows</option>
-							<option value="person">People</option>
-						</select>
+					<header id="header">
+						<NavBar/>
 						
-					</section>
+						<section id="form-container">
+						
+							<form autoComplete="off" action={`/${this.state.searchType}/${this.state.query}`} method="GET">
+								<div className="input-container">
+									<input id="query" type="text" onChange={this.handleChange} value={this.state.query} placeholder="Search..."/>
+									<span className="focus-border"></span>
+								</div>
+							</form>
+							<select onChange={this.handleChange} name="type" value={this.state.searchType} id="searchType">
+								<option value="movie">Movies</option>
+								<option value="tv">Tv Shows</option>
+								<option value="person">People</option>
+							</select>
+							
+						</section>
+					</header>
 					
-					<Switch>
-						<Route exact path="/" component={Home}/>
-						<Route path="/about/:searchType" component={ItemDetails}/>
-						<Route path="/:searchType/:query" component={Search}/>
-						<Route component={Home}/>
-					</Switch>
+					<main id="main-container">
+						
+						<Switch>
+							<Route exact path="/" component={Home}/>
+							<Route path="/about/:searchType" component={ItemDetails}/>
+							<Route path="/:searchType/:query" component={Search}/>
+							<Route component={Home}/>
+						</Switch>
+						
+					</main>
 					
 				</div>
 			</Router>

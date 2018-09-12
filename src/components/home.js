@@ -7,9 +7,7 @@ class Home extends Component{
 	render(){
 		return(
 			<div id="home-container">
-				<h2>
-					Sup Home
-				</h2>
+			<h1>Home</h1>
 				<NowPlaying/>
 			</div>
 		)

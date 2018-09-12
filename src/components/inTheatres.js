@@ -15,6 +15,16 @@ class NowPlaying extends Component{
 		fetch(url).then(result => result.json()).then(data => this.setState({data, isLoading:false}))
 	}
 	
+	handleScroll = (e) => {
+		console.dir(e.target);
+		if (e.target.id == "up") {
+			e.target.parentElement.scrollTop-=315;
+		}
+		else{
+			e.target.parentElement.scrollTop+=315;			
+		}
+	}
+	
 	render(){
 		
 		if (this.state.isLoading) { // IF DATA IS NOT FETCHED DISPLAY LOADING TO ESCAPE ERRORS
@@ -22,11 +32,15 @@ class NowPlaying extends Component{
 		}
 		
 		return(
-			<div>
+			<div id="now-playing">
 				<h2>
 					Now Playing:
 				</h2>
-				<DisplayItems type="movie" item={this.state.data.results}/>
+				<div id="now-playing-items">
+					<DisplayItems type="movie" item={this.state.data.results}/>
+					<button onClick={this.handleScroll} id="up" className="scroll-button"></button>
+					<button onClick={this.handleScroll} id="down" className="scroll-button"></button>
+				</div>
 			</div>
 		)
 	}

@@ -101,7 +101,7 @@ class MovieComponent extends Component{
 				
 				<img src={imageURL} alt="Movie Poster"/>
 				<h1>{title}</h1>
-				<h2>Runtime: {runtime}min</h2>
+				<h2>Runtime: {runtime ? `${runtime}min` : "Unknown"}</h2>
 				<h3>Release Date : {displayDate(release_date)} ({status})</h3>
 				<p>{overview}</p>
 				

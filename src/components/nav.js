@@ -4,11 +4,11 @@ import {Link} from 'react-router-dom';
 class NavBar extends Component{
 	render(){
 		return(
-			<nav>
-				<Link replace to="/"><button>Home</button></Link>
-				<Link to="/discover"><button>Discover</button></Link>
-				<Link to="/movies"><button>Movies</button></Link>
-				<Link to="/tv"><button>Tv</button></Link>
+			<nav id="nav-bar">
+				<Link className="nav-link" replace to="/">Home</Link>
+				<Link className="nav-link" to="/discover">Discover</Link>
+				<Link className="nav-link" to="/movies">Movies</Link>
+				<Link className="nav-link" to="/tv">Tv</Link>
 			</nav>
 		)
 	}
