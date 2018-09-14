@@ -10,7 +10,7 @@ class DisplayItems extends Component{
 						// Putting every TV show into Link container
 						<Link className="item-container" to={`/about/${this.props.type}?id=${id}`} key={id}>
 							<img src={`https://image.tmdb.org/t/p/w185${poster_path || profile_path}`} alt="Poster"/>
-							<p>{title || name}</p>
+							<p className="item-name">{title || name}</p>
 						</Link>
 					))
 				}

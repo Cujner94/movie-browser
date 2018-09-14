@@ -23,6 +23,9 @@ html{
 body{
 	min-height: 100%;
 	font-size: 1.6rem;
+	background: linear-gradient(to top, #e0ddd9, #ffffff);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
 }
 
 ol, ul, li {
@@ -38,6 +41,8 @@ ol, ul, li {
 #header{
 	background-color: var(--main-blue-color);
 	overflow: auto;
+	position: relative;
+	z-index: 99;
 }
 
 #nav-bar{
@@ -110,7 +115,7 @@ input:focus::-moz-placeholder{
 	display: grid;
 	justify-content: center;
 	grid-template-columns: auto 150px;
-	margin: 30px 0 30px 0;
+	margin: 30px 0 20px 0;
 }
 
 #query{
@@ -134,22 +139,24 @@ select{
 /* ================== MAIN CONTAINER FOR BODY ==================== */
 
 #main-container{
-	width: 70%;
+	width: 65%;
 	margin: auto;
-	background-color: #eeeeee;
-	padding: 25px;
 	font-family: "Roboto";	
 }
 
 
 /* ================== MAIN PAGE ==================== */
 
+#home-container h1{
+	text-align: center;
+}
+
 /* ================== NOW PLAYING ==================== */
 
 #now-playing{
-	margin: auto;
-	margin-top: 70px;
 	width: 90%;
+	margin: auto;
+	margin-top: 50px;
 	text-align: center;
 	position: relative;
 }
@@ -166,44 +173,162 @@ select{
 	grid-auto-rows: 305px;
 	grid-gap: 10px;
 	justify-content: space-between;
-	border: 1px solid black;
+	border: 2px solid black;
 	overflow-y: hidden;
-	height: 620px;
+	height: 624px;
 	scroll-behavior: smooth;
 }
 
 #now-playing-items a{
 	overflow: hidden;
-	color: #AC3B61;
+	color: #e6e6e6;
 	font-weight: 700;
 	text-decoration: none;
 	font-size: 1.7rem;
+	background-color: #2e2e2e;
+	border-radius: 5px;
 }
 
 .scroll-button{
 	position: absolute;
-	height: 50px;
-	width: 50px;
-	border-radius: 25%;
+	height: 40px;
+	width: 70px;
+	border-radius: 5px;
 	border: 0;
+	cursor: pointer;
 }
 
 #up{
-	top: 45px;
+	top: 50px;
 	left: 50%;
-	background: rgba(233, 233, 233, 0.655);
+	background: rgba(163, 163, 163, 0.225);
 	background-image: url(./public/up-arrow.png);
-	background-size: 80%;
+	background-size: 32px;
 	background-repeat: no-repeat;
 	background-position: center;
+	transform: scale(1);
+	transition: all 500ms cubic-bezier(0.615, -0.470, 0.650, 0.690);
 }
 
+
 #down{
-	bottom: 0;
+	bottom: 3px;
 	left: 50%;
-	background: rgba(233, 233, 233, 0.655);
+	overflow: hidden;	
+	background: rgba(163, 163, 163, 0.225);
 	background-image: url(./public/angle-arrow-down.png);
-	background-size: 80%;
+	background-size: 30px;
 	background-repeat: no-repeat;
 	background-position: center;
+	transform: scale(1);
+	transition: all 500ms cubic-bezier(0.615, -0.470, 0.650, 0.690);
+}
+
+#up:hover, #down:hover{
+	background-color: rgba(163, 163, 163, 0.438);
+	transform: scale(1.1);
+}
+
+
+/* ================== MOVIE DETAIL CONTAINER ==================== */
+
+.item-detail-container{
+	background-color: #fff;
+	position: relative;
+	box-shadow: 0px 0px 10px 2px rgba(110,110,110,1);
+	padding: 30px;
+	z-index: 1;
+}
+
+#movie-details{
+	display: grid;
+	grid-template-columns: 280px 1fr;
+	grid-template-rows: auto  400px 280px;
+	grid-row-gap: 15px;
+	grid-template-areas: 
+		"poster description"
+		"empty credits"
+		"similar similar"
+}
+
+#movie-poster{
+	grid-area: poster;
+	border: 2px solid var(--main-blue-color);
+	border-right: 0;
+	width: 280px;
+}
+
+#movie-description{
+	grid-area: description;
+	background-color: #f1f1f1;
+	border: 2px solid var(--main-blue-color);
+	padding: 10px;
+	display: grid;
+	grid-template-rows: 2fr 1.1fr;
+}
+
+#movie-description h1{
+	text-align: center;
+	font-size: 4rem;
+}
+
+.movie-simple-info{
+	display: flex;
+	justify-content: center;
+	justify-items: center;
+}
+
+.movie-simple-info p{
+	margin: 0 3px;
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: #888888;
+}
+
+.movie-genre:not(:last-child)::after{
+	content: " |";
+}
+
+#movie-overview{
+	margin-top: 20px;
+	font-size: 2rem;
+	font-weight: 500;
+	letter-spacing: -0.4px;
+}
+
+#movie-trailers{
+	background-color: #333;		
+}
+
+#movie-empty{
+	grid-area: empty;
+}
+
+#movie-credits{
+	grid-area: credits;
+	display: grid;
+	grid-template-columns: 1fr;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.credit-ul{
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+#movie-credits h2{
+	text-align: center;
+	background-color: #333;
+	color: rgb(236, 236, 236);
+}
+
+#movie-similar{
+	grid-area: similar;
+}
+
+.similar{
+	display: flex;
+	overflow-x: scroll;
+	overflow-y: hidden;
 }

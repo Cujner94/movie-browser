@@ -97,39 +97,73 @@ class MovieComponent extends Component{
 		
 		// RENDERING MOVIE COMPONENT
 		return(
-			<div>
+			<div id="movie-details" className="item-detail-container">
 				
-				<img src={imageURL} alt="Movie Poster"/>
-				<h1>{title}</h1>
-				<h2>Runtime: {runtime ? `${runtime}min` : "Unknown"}</h2>
-				<h3>Release Date : {displayDate(release_date)} ({status})</h3>
-				<p>{overview}</p>
+				<img id="movie-poster" src={imageURL} alt="Movie Poster"/>
 				
-				<h2>Genre:</h2>
-				{genres.map(({id, name}) =>(
-					<li key={id}>{name}</li>
-				))}
+				<div id="movie-description">
 				
-				<h2>Production Companies:</h2>
-				{production_companies.map(({id, name}) => (
-					<li key={id}>{name}</li>
-				))}
+					<div className="movie-text">
+						<h1>{title}</h1>
+						
+						<div className="movie-simple-info">
+							<p>{runtime ? `${runtime}min` : "Unknown"}</p>
+							<p>|</p>
+							<p>{release_date ? `${displayDate(release_date)} (${status})` : `Unknown (${status})` }</p>
+							<p>|</p>
+							<p>Vote Average: {vote_average}</p>
+						</div>
+						
+						
+						<div className="movie-simple-info">
+							{genres.map(({id, name}) =>(
+								<p className="movie-genre" key={id}>{name}</p>
+							))}
+						</div>
+						
+						<p id="movie-overview">{overview}</p>
+					</div>
+					
+					
+					<div id="movie-trailers">
+						<h2>Trailer Container</h2>
+					</div>
+					
+				</div>
 				
-				<p><b>Vote Average:</b> {vote_average}</p>
+				<div id="movie-empty">
+					<h2>Empty</h2>
+				</div>
 				
-				<ul>
-					{credits.cast.map(({id, character, name}) => (
-						<li key={id}>
-							<p>
-								<Link to={`/about/person?id=${id}`}>
-									<b>{name}</b>
-								</Link> as <b>{character}</b>
-							</p>
-						</li>
-					))}
-				</ul>
+				<div id="movie-credits">
+					<h2>Cast</h2>
+					<ul className="credit-ul">
+						{credits.cast.map(({id, cast_id, character, name}) => (
+							<li key={cast_id}>
+								<p>
+									<Link to={`/about/person?id=${id}`}>
+										<b>{name}</b>
+									</Link> as <b>{character}</b>
+								</p>
+							</li>
+						))}
+					</ul>
+					
+					<h2>Crew</h2>				
+					<ul className="credit-ul">
+						{credits.crew.slice(0, 20).map(({id, credit_id , job, name}) => (
+							<li key={credit_id}>
+								<p>
+									<Link to={`/about/person?id=${id}`}>
+										<b>{name}</b>
+									</Link> - <b>{job}</b>
+								</p>
+							</li>
+						))}
+					</ul>
+				</div>
 				
-				<div className="trending-containers">
+				<div id="movie-similar" className="similar">
 					<DisplayItems type="movie" item={similar.results} />
 				</div>
 			</div>
@@ -183,7 +217,7 @@ class TvComponent extends Component{
 		const imageURL= `https://image.tmdb.org/t/p/w342/${poster_path}`; // IMAGE URL
 		
 		return(
-			<div>
+			<div className="item-detail-container">
 				<img src={imageURL} alt="Tv Poster"/>
 				<h1>{name}</h1>
 				<h2>Number of seasons: {number_of_seasons} ({number_of_episodes} episodes)</h2>
@@ -204,7 +238,7 @@ class TvComponent extends Component{
 				))}
 				
 				<h2>Similar Shows</h2>
-				<div className="trending-containers">
+				<div className="similar">
 					<DisplayItems type="tv" item={similar.results} />
 				</div>
 			</div>
@@ -258,7 +292,7 @@ class PersonComponent extends Component{
 		const imageURL= `https://image.tmdb.org/t/p/h632/${profile_path}`; // IMAGE URL
 		
 		return(
-			<div>
+			<div className="item-detail-container">
 				<img src={imageURL} alt="Profile Picture"/>
 				<h1>{name}</h1>
 				<h2>{known_for_department}</h2>
