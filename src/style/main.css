@@ -40,17 +40,18 @@ ol, ul, li {
 
 #header{
 	background-color: var(--main-blue-color);
+	box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5);
 	overflow: auto;
 	position: relative;
 	z-index: 99;
 }
 
 #nav-bar{
-	height: 45px;
+	height: 30px;
 	display: flex;
-	justify-content: flex-end;
+	justify-content: center;
 	align-items: center;
-	margin-top: 7px;
+	margin-top: 10px;
 }
 
 .nav-link{
@@ -63,6 +64,12 @@ ol, ul, li {
 }
 
 /* ================== INPUT ==================== */
+#form-container{
+	display: grid;
+	justify-content: center;
+	grid-template-columns: auto 150px;
+	margin: 10px 0 20px 0;
+}
 
 .input-container{
 	position: relative;
@@ -111,12 +118,6 @@ input:focus::-moz-placeholder{
 	color: transparent;
 }
 
-#form-container{
-	display: grid;
-	justify-content: center;
-	grid-template-columns: auto 150px;
-	margin: 30px 0 20px 0;
-}
 
 #query{
 	width: 60rem;
@@ -242,29 +243,32 @@ select{
 
 #movie-details{
 	display: grid;
-	grid-template-columns: 280px 1fr;
-	grid-template-rows: auto  400px 280px;
+	grid-template-columns: 2fr 1.2fr;
+	grid-template-rows: auto  auto 280px;
 	grid-row-gap: 15px;
 	grid-template-areas: 
-		"poster description"
-		"empty credits"
+		"top top"
+		"credits empty"
 		"similar similar"
 }
 
+#movie-top{
+	grid-area: top;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	grid-gap: 20px;
+	padding: 25px;
+	background-color: #0C2745;
+}
+
 #movie-poster{
-	grid-area: poster;
-	border: 2px solid var(--main-blue-color);
-	border-right: 0;
 	width: 280px;
 }
 
 #movie-description{
-	grid-area: description;
-	background-color: #f1f1f1;
-	border: 2px solid var(--main-blue-color);
-	padding: 10px;
 	display: grid;
 	grid-template-rows: 2fr 1.1fr;
+	color: #fff;
 }
 
 #movie-description h1{
@@ -282,7 +286,7 @@ select{
 	margin: 0 3px;
 	font-size: 1.5rem;
 	font-weight: 700;
-	color: #888888;
+	opacity: 0.6;
 }
 
 .movie-genre:not(:last-child)::after{
@@ -290,14 +294,16 @@ select{
 }
 
 #movie-overview{
-	margin-top: 20px;
-	font-size: 2rem;
-	font-weight: 500;
+	margin-top: 40px;
+	font-size: 1.8rem;
+	font-weight: 300;
 	letter-spacing: -0.4px;
 }
 
 #movie-trailers{
-	background-color: #333;		
+	border:2px solid #123c69;
+	font-size: 1rem;
+	text-align: center;
 }
 
 #movie-empty{
@@ -308,19 +314,53 @@ select{
 	grid-area: credits;
 	display: grid;
 	grid-template-columns: 1fr;
-	overflow-x: hidden;
-	overflow-y: auto;
-}
-
-.credit-ul{
+	grid-template-rows: 40px;
 	overflow-x: hidden;
 	overflow-y: auto;
 }
 
 #movie-credits h2{
 	text-align: center;
-	background-color: #333;
+	background-color: #1e66b4;
+	border: 1px solid #114b88;
+	height: 40px;
+	padding: 5px;
 	color: rgb(236, 236, 236);
+	cursor: pointer;
+}
+
+.credit-ul{
+	overflow-x: hidden;
+	overflow-y: auto;
+	height: 200px;
+}
+
+.credit-invisible+ul{
+	height: 0;
+	display: none;
+	visibility: hidden;
+}
+
+.credit-name{
+	display: grid;
+	grid-template-columns: 1fr 20px 1fr;
+	grid-template-rows: auto;
+	grid-auto-rows: auto;
+	align-items: center;
+	padding: 8px 7px;
+	overflow: hidden;
+}
+
+.credit-name:nth-of-type(odd){
+	background: #ccc;
+}
+
+.center-name{
+	text-align: center;
+}
+
+.right-name{
+	text-align: right;
 }
 
 #movie-similar{

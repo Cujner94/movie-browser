@@ -73,6 +73,11 @@ class MovieComponent extends Component{
 		fetch(url).then(result => result.json()).then(data => this.setState({data, isLoading: false})); // Fetching data for movie detail
 	}
 	
+	toggleClass = (e) => {
+		console.log(e.target);
+		e.target.classList.toggle("credit-invisible");
+	}
+	
 	render(){
 		
 		if (this.state.isLoading) { // IF DATA IS NOT FETCHED DISPLAY LOADING TO ESCAPE ERRORS
@@ -99,36 +104,38 @@ class MovieComponent extends Component{
 		return(
 			<div id="movie-details" className="item-detail-container">
 				
-				<img id="movie-poster" src={imageURL} alt="Movie Poster"/>
-				
-				<div id="movie-description">
-				
-					<div className="movie-text">
-						<h1>{title}</h1>
-						
-						<div className="movie-simple-info">
-							<p>{runtime ? `${runtime}min` : "Unknown"}</p>
-							<p>|</p>
-							<p>{release_date ? `${displayDate(release_date)} (${status})` : `Unknown (${status})` }</p>
-							<p>|</p>
-							<p>Vote Average: {vote_average}</p>
+				<div id="movie-top">
+					<img id="movie-poster" src={imageURL} alt="Movie Poster"/>
+					
+					<div id="movie-description">
+					
+						<div className="movie-text">
+							<h1>{title}</h1>
+							
+							<div className="movie-simple-info">
+								<p>{runtime ? `${runtime}min` : "Unknown"}</p>
+								<p>|</p>
+								<p>{release_date ? `${displayDate(release_date)} (${status})` : `Unknown (${status})` }</p>
+								<p>|</p>
+								<p>Vote Average: {vote_average}</p>
+							</div>
+							
+							
+							<div className="movie-simple-info">
+								{genres.map(({id, name}) =>(
+									<p className="movie-genre" key={id}>{name}</p>
+								))}
+							</div>
+							
+							<p id="movie-overview">{overview}</p>
 						</div>
 						
 						
-						<div className="movie-simple-info">
-							{genres.map(({id, name}) =>(
-								<p className="movie-genre" key={id}>{name}</p>
-							))}
+						<div id="movie-trailers">
+							<h2>Trailer Container</h2>
 						</div>
 						
-						<p id="movie-overview">{overview}</p>
 					</div>
-					
-					
-					<div id="movie-trailers">
-						<h2>Trailer Container</h2>
-					</div>
-					
 				</div>
 				
 				<div id="movie-empty">
@@ -136,27 +143,39 @@ class MovieComponent extends Component{
 				</div>
 				
 				<div id="movie-credits">
-					<h2>Cast</h2>
-					<ul className="credit-ul">
+					<h2 onClick={this.toggleClass} className="credit-invisible">Cast</h2>
+					<ul className="credit-ul movie-cast">
 						{credits.cast.map(({id, cast_id, character, name}) => (
-							<li key={cast_id}>
-								<p>
+							<li className="credit-name" key={cast_id}>
+								<p className="left-name">
 									<Link to={`/about/person?id=${id}`}>
 										<b>{name}</b>
-									</Link> as <b>{character}</b>
+									</Link>
+								</p>
+								<p className="center-name">
+									as
+								</p>
+								<p className="right-name">
+									<b>{character}</b>
 								</p>
 							</li>
 						))}
 					</ul>
 					
-					<h2>Crew</h2>				
-					<ul className="credit-ul">
+					<h2 onClick={this.toggleClass} className="credit-invisible">Crew</h2>				
+					<ul className="credit-ul movie-crew">
 						{credits.crew.slice(0, 20).map(({id, credit_id , job, name}) => (
-							<li key={credit_id}>
-								<p>
+							<li className="credit-name" key={credit_id}>
+								<p className="left-name">
 									<Link to={`/about/person?id=${id}`}>
 										<b>{name}</b>
-									</Link> - <b>{job}</b>
+									</Link>
+								</p>
+								<p className="center-name">
+									-
+								</p>
+								<p className="right-name">
+									<b>{job}</b>
 								</p>
 							</li>
 						))}
