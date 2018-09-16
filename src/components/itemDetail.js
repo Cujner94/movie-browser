@@ -73,9 +73,14 @@ class MovieComponent extends Component{
 		fetch(url).then(result => result.json()).then(data => this.setState({data, isLoading: false})); // Fetching data for movie detail
 	}
 	
-	toggleClass = (e) => {
-		console.log(e.target);
-		e.target.classList.toggle("credit-invisible");
+	handleScroll = (e) => {
+		console.dir(e.target);
+		if (e.target.id == "left") {
+			e.target.parentElement.scrollLeft-=370;
+		}
+		else{
+			e.target.parentElement.scrollLeft+=370;			
+		}
 	}
 	
 	render(){
@@ -138,12 +143,8 @@ class MovieComponent extends Component{
 					</div>
 				</div>
 				
-				<div id="movie-empty">
-					<h2>Empty</h2>
-				</div>
-				
-				<div id="movie-credits">
-					<h2 onClick={this.toggleClass} className="credit-invisible">Cast</h2>
+				<div className="movie-credits" id="movie-cast">
+					<h2>Cast</h2>
 					<ul className="credit-ul movie-cast">
 						{credits.cast.map(({id, cast_id, character, name}) => (
 							<li className="credit-name" key={cast_id}>
@@ -161,29 +162,35 @@ class MovieComponent extends Component{
 							</li>
 						))}
 					</ul>
-					
-					<h2 onClick={this.toggleClass} className="credit-invisible">Crew</h2>				
-					<ul className="credit-ul movie-crew">
-						{credits.crew.slice(0, 20).map(({id, credit_id , job, name}) => (
-							<li className="credit-name" key={credit_id}>
-								<p className="left-name">
-									<Link to={`/about/person?id=${id}`}>
-										<b>{name}</b>
-									</Link>
-								</p>
-								<p className="center-name">
-									-
-								</p>
-								<p className="right-name">
-									<b>{job}</b>
-								</p>
-							</li>
-						))}
-					</ul>
 				</div>
 				
-				<div id="movie-similar" className="similar">
-					<DisplayItems type="movie" item={similar.results} />
+				<div className="movie-credits" id="movie-crew">
+					<h2>Crew</h2>				
+					<ul className="credit-ul movie-crew">
+							{credits.crew.slice(0, 20).map(({id, credit_id , job, name}) => (
+								<li className="credit-name" key={credit_id}>
+									<p className="left-name">
+										<Link to={`/about/person?id=${id}`}>
+											<b>{name}</b>
+										</Link>
+									</p>
+									<p className="center-name">
+										-
+									</p>
+									<p className="right-name">
+										<b>{job}</b>
+									</p>
+								</li>
+							))}
+						</ul>
+				</div>
+				
+				<div id="movie-similar" className="similar-container-2">
+					<div  className="similar">
+						<DisplayItems type="movie" item={similar.results} />
+						<button onClick={this.handleScroll} className="scroll-button" id="left"></button>
+						<button onClick={this.handleScroll} className="scroll-button" id="right"></button>
+					</div>
 				</div>
 			</div>
 		)
@@ -209,6 +216,16 @@ class TvComponent extends Component{
 		this.setState({data:[], isLoading:true})
 		
 		fetch(url).then(result => result.json()).then(data => this.setState({data, isLoading: false})); // Fetching data for movie detail
+	}
+	
+	handleScroll = (e) => {
+		console.dir(e.target);
+		if (e.target.id == "left") {
+			e.target.parentElement.scrollLeft-=370;
+		}
+		else{
+			e.target.parentElement.scrollLeft+=370;			
+		}
 	}
 	
 	render(){
@@ -257,8 +274,13 @@ class TvComponent extends Component{
 				))}
 				
 				<h2>Similar Shows</h2>
-				<div className="similar">
-					<DisplayItems type="tv" item={similar.results} />
+				
+				<div id="movie-similar" className="similar-container-2">
+					<div className="similar">
+						<DisplayItems type="tv" item={similar.results} />
+						<button onClick={this.handleScroll} className="scroll-button" id="left"></button>
+						<button onClick={this.handleScroll} className="scroll-button" id="right"></button>
+					</div>
 				</div>
 			</div>
 		)

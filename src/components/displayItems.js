@@ -8,10 +8,14 @@ class DisplayItems extends Component{
 				{
 					this.props.item.map(({id, poster_path, title, name, profile_path}) => (
 						// Putting every TV show into Link container
-						<Link className="item-container" to={`/about/${this.props.type}?id=${id}`} key={id}>
-							<img src={`https://image.tmdb.org/t/p/w185${poster_path || profile_path}`} alt="Poster"/>
-							<p className="item-name">{title || name}</p>
-						</Link>
+						<figure key={id} className="item-container">
+							<Link to={`/about/${this.props.type}?id=${id}`}>
+								<img className="item-image" src={`https://image.tmdb.org/t/p/w185${poster_path || profile_path}`} alt="Poster"/>
+								<figcaption>
+									<p className="item-name">{title || name}</p>
+								</figcaption>
+							</Link>
+						</figure>
 					))
 				}
 			</Fragment>
