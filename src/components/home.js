@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 
-import NowPlaying from './inTheatres';
+import NowPlaying from './in-theatres';
 
 class Home extends Component{
 	render(){
