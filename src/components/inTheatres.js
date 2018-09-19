@@ -18,10 +18,10 @@ class NowPlaying extends Component{
 	handleScroll = (e) => {
 		console.dir(e.target);
 		if (e.target.id == "up") {
-			e.target.parentElement.scrollTop-=315;
+			e.target.parentElement.scrollTop-=288;
 		}
 		else{
-			e.target.parentElement.scrollTop+=315;			
+			e.target.parentElement.scrollTop+=288;			
 		}
 	}
 	

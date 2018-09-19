@@ -155,7 +155,7 @@ select{
 /* ================== NOW PLAYING ==================== */
 
 #now-playing{
-	width: 90%;
+	width: 70%;
 	margin: auto;
 	margin-top: 50px;
 	text-align: center;
@@ -170,14 +170,19 @@ select{
 #now-playing-items{
 	display: grid;
 	grid-template-columns: repeat(auto-fit, 185px);
-	grid-template-rows: 305px;
-	grid-auto-rows: 305px;
+	grid-template-rows: 278px;
+	grid-auto-rows: 278px;
 	grid-gap: 10px;
 	justify-content: space-between;
-	border: 2px solid black;
+	border: 2px solid black;	
 	overflow-y: hidden;
-	height: 624px;
+	height: 570px;
 	scroll-behavior: smooth;
+}
+
+
+#now-playing-items .item-container{
+	overflow: hidden;
 }
 
 #now-playing-items a{
@@ -254,6 +259,10 @@ select{
 
 #movie-top{
 	grid-area: top;
+	
+}
+
+.top-container{
 	display: grid;
 	grid-template-columns: auto 1fr;
 	grid-gap: 20px;
@@ -261,7 +270,7 @@ select{
 	background-color: #0C2745;
 }
 
-#movie-poster{
+.item-poster{
 	width: 280px;
 	align-self: center;
 }
@@ -269,7 +278,7 @@ select{
 #movie-description{
 	display: grid;
 	grid-template-rows: 2fr 1.1fr;
-	color: #fff;
+	color: rgba(255, 255, 255, 0.95);
 }
 
 #movie-description h1{
@@ -277,13 +286,14 @@ select{
 	font-size: 4rem;
 }
 
-.movie-simple-info{
+.simple-info{
 	display: flex;
 	justify-content: center;
 	justify-items: center;
+	text-align: center;
 }
 
-.movie-simple-info p{
+.simple-info p{
 	margin: 0 3px;
 	font-size: 1.5rem;
 	font-weight: 700;
@@ -393,6 +403,24 @@ select{
 	border: 2px solid black;
 }
 
+/* ================== TV DETAILS ==================== */
+
+.tv-description{
+	color: rgba(255, 255, 255, 0.95);	
+}
+
+.tv-description h1{
+	text-align: center;
+	font-size: 4rem;
+}
+
+.top-container span{
+	text-align: center;
+	opacity: 0.5;
+	font-size: 1.5rem;
+	margin-bottom: 5px;
+}
+
 /* ================== DISPLAY ITEMS ==================== */
 .similar-container-2{
 	position: relative;	
@@ -431,6 +459,11 @@ select{
 	width: 185px;
 	height: 278px;
 	position: relative;
+}
+
+
+.item-container img{
+	height: 100%;
 }
 
 .item-container a{

@@ -44,9 +44,9 @@ class ItemDetails extends Component{
 		
 		
 		return(
-			<div>
+			<Fragment>
 				{renderThis}
-			</div>
+			</Fragment>
 		)
 	}
 }
@@ -109,15 +109,15 @@ class MovieComponent extends Component{
 		return(
 			<div id="movie-details" className="item-detail-container">
 				
-				<div id="movie-top">
-					<img id="movie-poster" src={imageURL} alt="Movie Poster"/>
+				<div id="movie-top" className="top-container">
+					<img className="item-poster" id="movie-poster" src={imageURL} alt="Movie Poster"/>
 					
 					<div id="movie-description">
 					
 						<div className="movie-text">
 							<h1>{title}</h1>
 							
-							<div className="movie-simple-info">
+							<div className="simple-info">
 								<p>{runtime ? `${runtime}min` : "Unknown"}</p>
 								<p>|</p>
 								<p>{release_date ? `${displayDate(release_date)} (${status})` : `Unknown (${status})` }</p>
@@ -126,7 +126,7 @@ class MovieComponent extends Component{
 							</div>
 							
 							
-							<div className="movie-simple-info">
+							<div className="simple-info">
 								{genres.map(({id, name}) =>(
 									<p className="movie-genre" key={id}>{name}</p>
 								))}
@@ -254,24 +254,38 @@ class TvComponent extends Component{
 		
 		return(
 			<div className="item-detail-container">
-				<img src={imageURL} alt="Tv Poster"/>
-				<h1>{name}</h1>
-				<h2>Number of seasons: {number_of_seasons} ({number_of_episodes} episodes)</h2>
-				<h4>First air : {displayDate(first_air_date)}</h4>
-				<h4>Last episode : {displayDate(last_air_date)}</h4>
-				<p>{overview}</p>
+			
+			
+				<div className="top-container">
+					<img className="item-poster" src={imageURL} alt="Tv Poster"/>
+					
+					
+					<div className="tv-description">
+						<h1>{name}</h1>
+						
+						<div className="simple-info">
+							{genres.map(({id, name}) =>(
+								<p className="movie-genre" key={id}>{name}</p>
+							))}
+						</div>
+						
+						<div className="simple-info">
+							<p>Seasons: {number_of_seasons} ({number_of_episodes} episodes)</p>
+							<p>First air : {displayDate(first_air_date)}</p>
+							<p>Last episode : {displayDate(last_air_date)}</p>
+							<span>({status})</span>
+						</div>
+						<p>{overview}</p>
+						
+						<p><b>Vote Average:</b> {vote_average}</p>
+					</div>
+				</div>
 				
-				<h2>Genre:</h2>
-				{genres.map(({id, name}) =>(
-					<li key={id}>{name}</li>
-				))}
-				
-				<p><b>Vote Average:</b> {vote_average}</p>
-				<h2>Status : {status}</h2>
-				
-				{seasons.map(({id, season_number}) => (
-					<TvSeasons key={id} location={this.props.location} id={this.props.id} season={season_number} />
-				))}
+				<div className="season-grid">
+					{seasons.map(({id, season_number}) => (
+						<TvSeasons key={id} location={this.props.location} id={this.props.id} season={season_number} />
+					))}
+				</div>
 				
 				<h2>Similar Shows</h2>
 				
