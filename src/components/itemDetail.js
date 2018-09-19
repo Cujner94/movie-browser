@@ -185,13 +185,13 @@ class MovieComponent extends Component{
 						</ul>
 				</div>
 				
-				<div id="movie-similar" className="similar-container-2">
+				{similar.results.length > 0 ? (<div id="movie-similar" className="similar-container-2">
 					<div  className="similar">
 						<DisplayItems type="movie" item={similar.results} />
 						<button onClick={this.handleScroll} className="scroll-button" id="left"></button>
 						<button onClick={this.handleScroll} className="scroll-button" id="right"></button>
 					</div>
-				</div>
+				</div>) : ""}
 			</div>
 		)
 	}
@@ -206,7 +206,9 @@ class TvComponent extends Component{
 	
 	state={
 		data : [],
-		isLoading: true
+		isLoading: true,
+		isShowingSeason: false,
+		seasonNum: ""
 	}
 	
 	componentDidMount(){
@@ -226,6 +228,10 @@ class TvComponent extends Component{
 		else{
 			e.target.parentElement.scrollLeft+=370;			
 		}
+	}
+	
+	handleButton = (e) => {
+		this.setState({seasonNum: e.target.value, isShowingSeason:true});
 	}
 	
 	render(){
@@ -263,11 +269,6 @@ class TvComponent extends Component{
 					<div className="tv-description">
 						<h1>{name}</h1>
 						
-						<div className="simple-info">
-							{genres.map(({id, name}) =>(
-								<p className="movie-genre" key={id}>{name}</p>
-							))}
-						</div>
 						
 						<div className="simple-info">
 							<p>Seasons: {number_of_seasons} ({number_of_episodes} episodes)</p>
@@ -275,27 +276,36 @@ class TvComponent extends Component{
 							<p>Last episode : {displayDate(last_air_date)}</p>
 							<span>({status})</span>
 						</div>
-						<p>{overview}</p>
 						
+						<div className="simple-info">
+							{genres.map(({id, name}) =>(
+								<p className="movie-genre" key={id}>{name}</p>
+								))}
+						</div>
+						
+						<p>{overview}</p>
 						<p><b>Vote Average:</b> {vote_average}</p>
 					</div>
 				</div>
 				
 				<div className="season-grid">
-					{seasons.map(({id, season_number}) => (
-						<TvSeasons key={id} location={this.props.location} id={this.props.id} season={season_number} />
-					))}
+					<div className="seasonNum-grid">
+						{seasons.map(({id, season_number}) => (
+							<button value={season_number} onClick={this.handleButton} key={id}>{season_number}</button>
+						))}
+					</div>
+						{this.state.isShowingSeason ? <TvSeasons key={this.state.seasonNum} location={this.props.location} id={this.props.id} season={this.state.seasonNum} displayDate={displayDate} /> : ""}
 				</div>
 				
 				<h2>Similar Shows</h2>
 				
-				<div id="movie-similar" className="similar-container-2">
+				{similar.results.length > 0 ? (<div id="movie-similar" className="similar-container-2">
 					<div className="similar">
 						<DisplayItems type="tv" item={similar.results} />
 						<button onClick={this.handleScroll} className="scroll-button" id="left"></button>
 						<button onClick={this.handleScroll} className="scroll-button" id="right"></button>
 					</div>
-				</div>
+				</div>) : ""}
 			</div>
 		)
 	}
@@ -408,17 +418,18 @@ class TvSeasons extends Component{
 		
 		const { episodes,
 						id,
-						name,
 						season_number } = this.state.data; //Destructuring
 		
 		
 		return(
 			<div>
-				<p>Season : {season_number}</p>
-				<p>Name : {name}</p>
+				<h2>Season {season_number}</h2>
 				<div>
-					{episodes.map(({id,name, episode_number}) =>(
-						<p key={id}>Episode {episode_number} - "{name}"</p>
+					{episodes.map(({id,name, episode_number, air_date}) =>(
+						<div key={id} className="episode-container">
+							<p className="episode-name">{episode_number}. "{name}"</p>
+							<p className="episode-date">{air_date ? this.props.displayDate(air_date) : "Unknown"}</p>
+						</div>
 					))}
 				</div>
 			</div>
