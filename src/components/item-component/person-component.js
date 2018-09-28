@@ -51,26 +51,40 @@ class PersonComponent extends Component{
 		
 		return(
 			<div className="item-detail-container">
-				<img src={imageURL} alt="Profile Picture"/>
-				<h1>{name}</h1>
-				<h2>{known_for_department}</h2>
-				<h2>Born: {displayDate(birthday)} in {place_of_birth}</h2>
-				{deathday ? <h2>Died: {displayDate(deathday)}</h2> : ""}
 				
-				<p>{biography}</p>
-				
-				<div>
-					<h3>Cast</h3>
-					<div id="movie">
-						<h4>Movies:</h4>
-						{this.filterArray(combined_credits.cast,"movie").map(({character, title, id, media_type, credit_id}) => ( //FIXME: REMOVE CODE REPEATING
-							<li key={credit_id}>As {character ? character : "Unknown"} in <Link to={`/about/${media_type}?id=${id}`}>{title}</Link></li>
-						))}
+				<div className="top-container">
+					<img className="item-poster" src={imageURL} alt="Profile Picture"/>
+					
+					<div id="person-info">
+						<h1>{name}</h1>
+						<h2>Born: {displayDate(birthday)} in {place_of_birth}</h2>
+						{deathday ? <h2>Died: {displayDate(deathday)}</h2> : ""}
+						<h2>{known_for_department}</h2>
+						
+						<p>{biography}</p>
 					</div>
-					<div id="tv">
-						<h4>Tv Shows:</h4>
-						{this.filterArray(combined_credits.cast,"tv").map(({character, name, id, media_type, credit_id}) => (
-							<li key={credit_id}>As {character ? character : "Unknown"} in <Link to={`/about/${media_type}?id=${id}`}>{name}</Link></li>
+				</div>
+				
+				<div id="person-credits">
+					<h3>Cast</h3>
+					<h3>Crew</h3>
+					<div id="person-cast">
+						<div id="movie">
+							<h4>Movies:</h4>
+							{this.filterArray(combined_credits.cast,"movie").map(({character, title, id, media_type, credit_id}) => ( //FIXME: REMOVE CODE REPEATING
+								<li key={credit_id}>As {character ? character : "Unknown"} in <Link to={`/about/${media_type}?id=${id}`}>{title}</Link></li>
+							))}
+						</div>
+						<div id="tv">
+							<h4>Tv Shows:</h4>
+							{this.filterArray(combined_credits.cast,"tv").map(({character, name, id, media_type, credit_id}) => (
+								<li key={credit_id}>As {character ? character : "Unknown"} in <Link to={`/about/${media_type}?id=${id}`}>{name}</Link></li>
+							))}
+						</div>
+					</div>
+					<div id="person-crew">
+						{combined_credits.crew.map(({credit_id, id, job, title, media_type}) => (
+							<li key={credit_id}>As {job ? job : "Unknown"} on <Link to={`/about/${media_type}?id=${id}`}>{title}</Link></li>
 						))}
 					</div>
 				</div>

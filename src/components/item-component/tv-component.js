@@ -103,7 +103,6 @@ class TvComponent extends Component{
 						{this.state.isShowingSeason ? <TvSeasons key={this.state.seasonNum} location={this.props.location} id={this.props.id} season={this.state.seasonNum} displayDate={displayDate} /> : ""}
 				</div>
 				
-				<h2>Similar Shows</h2>
 				
 				{similar.results.length > 0 ? (<div id="movie-similar" className="similar-container-2">
 					<div className="similar">
