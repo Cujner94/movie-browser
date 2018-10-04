@@ -5,28 +5,32 @@ import 'react-input-range/lib/css/index.css';
 
 class Discover extends Component{
 	state = {
-		genre: "comedy",
+		genre: "Action",
 		year: {
 			label: "year",
 			min: 1970,
-			max: 2017,
+			max: 2018,
 			step: 1,
-			value: { min: 2000, max: 2017 }
+			value: { min: 2000, max: 2018 }
 		},
 		rating: {
 			label: "rating",
 			min: 0,
 			max: 10,
 			step: 1,
-			value: { min: 8, max: 10 }
+			value: { min: 7, max: 10 }
 		},
 		runtime: {
 			label: "runtime",
 			min: 0,
-			max: 300,
+			max: 200,
 			step: 15,
-			value: { min: 60, max: 120 }
+			value: { min: 60, max: 150 }
 		}
+	}
+	
+	onGenreChange = event => {
+		this.setState({genre : event.target.value});
 	}
 	
 	onChange = data => {
@@ -43,10 +47,12 @@ class Discover extends Component{
 	
 	render(){
 		return(
-			<div>
+			<div className="item-detail-container">
 				<Slider data={this.state.year} onChange={this.onChange} />
         <Slider data={this.state.rating} onChange={this.onChange} />
         <Slider data={this.state.runtime} onChange={this.onChange} />
+				
+				<Genres onGenreChange={this.onGenreChange}/>
 			</div>
 		)
 	}
@@ -82,11 +88,35 @@ class Slider extends Component {
 }
 
 class Genres extends Component{
+	
+	state = {
+		genres : {},
+		isLoading : true
+	}
+	
+	componentDidMount(){
+		const url = 'https://api.themoviedb.org/3/genre/movie/list?api_key=b41936b8ed0f4f2f3e076cf8f2d3af29&language=en-US';
+		fetch(url).then(result => result.json()).then(genres => this.setState({genres, isLoading: false}));
+	}
+	
 	render(){
+		
+		if (this.state.isLoading) {
+			return(
+				<select name="genres">
+					<option>Loading</option>
+				</select>
+			)
+		}
+		
+		const {genres} = this.state.genres;
+		
 		return(
-			<div>
-				Genres
-			</div>
+			<select value={genres[0].name} onChange={this.props.onGenreChange} name="genres">
+				{genres.map(({name, id}) => (
+					<option key={id} value={name}>{name}</option>
+				))}
+			</select>
 		)
 	}
 }
