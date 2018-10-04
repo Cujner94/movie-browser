@@ -65,26 +65,44 @@ class PersonComponent extends Component{
 					</div>
 				</div>
 				
-				<div id="person-credits">
-					<h3>Cast</h3>
-					<h3>Crew</h3>
-					<div id="person-cast">
+				<div className="item-credits" id="person-credits">
+					<h2>Cast</h2>
+					<h2>Crew</h2>
+					<div className="person-cast-scroll" id="person-cast">
 						<div id="movie">
 							<h4>Movies:</h4>
-							{this.filterArray(combined_credits.cast,"movie").map(({character, title, id, media_type, credit_id}) => ( //FIXME: REMOVE CODE REPEATING
-								<li key={credit_id}>As {character ? character : "Unknown"} in <Link to={`/about/${media_type}?id=${id}`}>{title}</Link></li>
+							{this.filterArray(combined_credits.cast,"movie").map(({character, title, id, media_type, credit_id}) => (
+								<li className="credit-name" key={credit_id}>
+									<b>{character ? character : "Unknown"}</b>
+									<span>in</span>
+									<Link className="person-credit-right" to={`/about/${media_type}?id=${id}`}>
+										{title}
+									</Link>
+								</li>
 							))}
 						</div>
 						<div id="tv">
 							<h4>Tv Shows:</h4>
 							{this.filterArray(combined_credits.cast,"tv").map(({character, name, id, media_type, credit_id}) => (
-								<li key={credit_id}>As {character ? character : "Unknown"} in <Link to={`/about/${media_type}?id=${id}`}>{name}</Link></li>
+								<li className="credit-name" key={credit_id}>
+									<b>{character ? character : "Unknown"}</b>
+									<span>in</span> 
+									<Link className="person-credit-right" to={`/about/${media_type}?id=${id}`}>
+										{name}
+									</Link>
+								</li>
 							))}
 						</div>
 					</div>
-					<div id="person-crew">
+					<div className="person-cast-scroll" id="person-crew">
 						{combined_credits.crew.map(({credit_id, id, job, title, media_type}) => (
-							<li key={credit_id}>As {job ? job : "Unknown"} on <Link to={`/about/${media_type}?id=${id}`}>{title}</Link></li>
+							<li className="credit-name" key={credit_id}>
+								<b>{job ? job : "Unknown"}</b>
+								<span>on</span> 
+								<Link className="person-credit-right" to={`/about/${media_type}?id=${id}`}>
+									{title}
+								</Link>
+							</li>
 						))}
 					</div>
 				</div>

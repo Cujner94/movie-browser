@@ -97,7 +97,7 @@ class MovieComponent extends Component{
 					</div>
 				</div>
 				
-				<div className="movie-credits" id="movie-cast">
+				<div className="item-credits" id="movie-cast">
 					<h2>Cast</h2>
 					<ul className="credit-ul movie-cast">
 						{credits.cast.map(({id, cast_id, character, name}) => (
@@ -118,7 +118,7 @@ class MovieComponent extends Component{
 					</ul>
 				</div>
 				
-				<div className="movie-credits" id="movie-crew">
+				<div className="item-credits" id="movie-crew">
 					<h2>Crew</h2>				
 					<ul className="credit-ul movie-crew">
 							{credits.crew.slice(0, 20).map(({id, credit_id , job, name}) => (

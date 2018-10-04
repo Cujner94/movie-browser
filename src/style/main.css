@@ -249,7 +249,7 @@ select{
 	grid-template-columns: auto 1fr;
 	grid-gap: 20px;
 	padding: 25px;
-	background-color: #0c2745;
+	background-color: #081a4b;
 	color: #eeeeee;
 }
 
@@ -284,6 +284,15 @@ select{
 .top-container h1{
 	text-align: center;
 	font-size: 4rem;
+}
+
+.item-credits h2{
+	text-align: center;
+	background-color: #1e66b4;
+	color: rgb(236, 236, 236);
+	border: 1px solid #114b88;
+	height: 40px;
+	padding: 5px;
 }
 
 /* ================== MOVIE DETAIL CONTAINER ==================== */
@@ -336,15 +345,6 @@ select{
 	overflow-y: auto;
 }
 
-.movie-credits h2{
-	text-align: center;
-	background-color: #1e66b4;
-	color: rgb(236, 236, 236);
-	border: 1px solid #114b88;
-	height: 40px;
-	padding: 5px;
-}
-
 .credit-ul{
 	overflow-x: hidden;
 	overflow-y: auto;
@@ -386,9 +386,9 @@ select{
 
 .left-name a{
 	text-decoration: none;
-	color: #2428ff;
-	font-size: 1.6rem;
-	font-weight: 900;
+	color: #1d20c2;
+	font-size: 1.7rem;
+	font-weight: 700;
 }
 
 .center-name{
@@ -485,20 +485,49 @@ select{
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	margin-top: 20px;
+	grid-column-gap: 10px;
 	height: 400px;
 	overflow: hidden;
 }
 
-#person-credits h3{
-	text-align: center;
-}
-
 #person-cast{
 	overflow: auto;
+	padding: 1px;
+}
+
+#person-cast h4{
+	text-align: center;
+	background-color: #0c2745;
+	color: #f5f5f5;	
+}
+
+.person-cast-scroll::-webkit-scrollbar-track{
+	box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #f5f5f5;
+}
+
+.person-cast-scroll::-webkit-scrollbar{
+	width: 12px;
+	background-color: #f5f5f5;
+}
+
+.person-cast-scroll::-webkit-scrollbar-thumb{
+	box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #17518f;
+	border-radius: 10px;	
 }
 
 #person-crew{
 	overflow: auto;
+}
+
+.person-credit-right{
+	text-align: right;
+	text-decoration: none;
+	color: #1d20c2;
+	font-size: 1.7rem;
+	font-weight: 700;
 }
 
 /* ================== DISPLAY ITEMS ==================== */

@@ -6,6 +6,7 @@ import style from "./style/main.css";
 import Home from './components/home';
 import Search from './components/search';
 import NavBar from './components/nav';
+import Discover from './components/discover';
 import ItemDetails from './components/itemDetail';
 
 const API_KEY = 'b41936b8ed0f4f2f3e076cf8f2d3af29';
@@ -52,6 +53,7 @@ class App extends Component{
 						<Switch>
 							<Route exact path="/" component={Home}/>
 							<Route path="/about/:searchType" component={ItemDetails}/>
+							<Route path="/discover" component={Discover}/>
 							<Route path="/:searchType/:query" component={Search}/>
 							<Route component={Home}/>
 						</Switch>
