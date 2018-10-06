@@ -20,11 +20,11 @@ class MovieComponent extends Component{
 	componentDidMount(){
 		const id = this.props.id;
 		const API_KEY = this.props.apiKey;				
-		const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US&append_to_response=credits,similar`;
+		const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US&append_to_response=credits,similar,videos`;
 		
 		this.setState({data:[], isLoading:true})
 		
-		fetch(url).then(result => result.json()).then(data => this.setState({data, isLoading: false})); // Fetching data for movie detail
+		fetch(url).then(result => result.json()).then(data => this.setState({data, isLoading: false})).catch(err => console.dir(err)); // Fetching data for movie detail
 	}
 	
 	handleScroll = (e) => {
@@ -40,7 +40,11 @@ class MovieComponent extends Component{
 	render(){
 		
 		if (this.state.isLoading) { // IF DATA IS NOT FETCHED DISPLAY LOADING TO ESCAPE ERRORS
-			return <h1>Loading</h1>
+			return (
+				<div className="item-detail-container">
+					<h1>Loading</h1>
+				</div>
+			)
 		}
 		
 		const displayDate = this.props.displayDate; // PUTTING PROPS IN A CONST FOR EASIER READ
@@ -55,7 +59,8 @@ class MovieComponent extends Component{
 						vote_average, 
 						poster_path, 
 						credits, 
-						similar } = this.state.data; // DECONSTRUCTING STATE INTO VARIABLES THAT ARE NEEDED IN COMPONENT
+						similar,
+						videos } = this.state.data; // DECONSTRUCTING STATE INTO VARIABLES THAT ARE NEEDED IN COMPONENT
 						
 		const imageURL= `https://image.tmdb.org/t/p/w342/${poster_path}`; // IMAGE URL
 		
@@ -91,7 +96,7 @@ class MovieComponent extends Component{
 						
 						
 						<div id="movie-trailers">
-							<h2>Trailer Container</h2>
+							{videos.results.length>0 ? ( <Trailers trailers={videos.results} /> ) : ""}
 						</div>
 						
 					</div>
@@ -147,6 +152,43 @@ class MovieComponent extends Component{
 					</div>
 				</div>) : ""}
 			</div>
+		)
+	}
+}
+
+class Trailers extends Component{
+	render(){
+		const trailers = this.props.trailers;
+		
+		return(
+			<Fragment>
+				<iframe
+					width="280" 
+					height="170" 
+					src={`https://www.youtube.com/embed/${trailers[0].key}`} 
+					frameBorder="0" 
+					allow="autoplay; encrypted-media" 
+					allowFullScreen>
+				</iframe>
+				{trailers.length>=3 ? (<Fragment>
+					<iframe
+						width="280" 
+						height="170" 
+						src={`https://www.youtube.com/embed/${trailers[1].key}`} 
+						frameBorder="0" 
+						allow="autoplay; encrypted-media" 
+						allowFullScreen>
+					</iframe>
+					<iframe 
+						width="280" 
+						height="170" 
+						src={`https://www.youtube.com/embed/${trailers[2].key}`} 
+						frameBorder="0" 
+						allow="autoplay; encrypted-media" 
+						allowFullScreen>
+					</iframe>
+				</Fragment>): ""}
+			</Fragment>
 		)
 	}
 }

@@ -34,7 +34,7 @@ class NowPlaying extends Component{
 		return(
 			<div id="now-playing">
 				<h2>
-					Now Playing:
+					In Theatres:
 				</h2>
 				<div id="now-playing-items">
 					<DisplayItems type="movie" item={this.state.data.results}/>

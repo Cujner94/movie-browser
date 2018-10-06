@@ -40,6 +40,7 @@ ol, ul, li {
 
 #header{
 	background-color: var(--main-blue-color);
+	background: linear-gradient(to top, #1e3c72, #2a5298); 
 	box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5);
 	overflow: auto;
 	position: relative;
@@ -150,6 +151,7 @@ select{
 
 #home-container h1{
 	text-align: center;
+	margin: 30px 0;
 }
 
 /* ================== NOW PLAYING ==================== */
@@ -288,7 +290,7 @@ select{
 
 .item-credits h2{
 	text-align: center;
-	background-color: #1e66b4;
+	background-color: #0e4b8b;
 	color: rgb(236, 236, 236);
 	border: 1px solid #114b88;
 	height: 40px;
@@ -315,7 +317,7 @@ select{
 
 #movie-description{
 	display: grid;
-	grid-template-rows: 2fr 1.1fr;
+	grid-template-rows: 2fr 1.3fr;
 }
 
 .movie-genre:not(:last-child)::after{
@@ -325,14 +327,14 @@ select{
 #movie-overview{
 	margin-top: 40px;
 	font-size: 1.8rem;
-	font-weight: 300;
+	font-weight: 400;
 	letter-spacing: -0.4px;
 }
 
 #movie-trailers{
-	border:2px solid #123c69;
-	font-size: 1rem;
-	text-align: center;
+	position: relative;
+	display: flex;
+	overflow: hidden;
 }
 
 #movie-crew{
@@ -571,7 +573,6 @@ select{
 	position: relative;
 }
 
-
 .item-container img{
 	height: 100%;
 }
@@ -615,7 +616,8 @@ select{
 	transform: translate3d(0,0,0);
 }
 
-/* SLIDER */
+/* ================== SLIDERS ==================== */
+
 .slider {
   margin-bottom: 40px;
 }
@@ -661,4 +663,20 @@ select{
 
 .input-range__label--max .input-range__label-container {
   left: 25%;
+}
+
+/* ================== DISCOVER ==================== */
+
+
+.discover-movies{
+	display: grid;
+	grid-template-columns: repeat(auto-fit, 185px);
+	grid-gap: 10px;
+	overflow: hidden;
+	margin-top: 30px;
+	justify-content: center;
+}
+
+.discover-movies .item-container{
+	overflow: hidden;
 }

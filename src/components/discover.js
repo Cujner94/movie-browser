@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
 import InputRange from "react-input-range";
+import DisplayItems from "./displayItems";
 
 import 'react-input-range/lib/css/index.css';
 
 class Discover extends Component{
 	state = {
 		genre: "Action",
+		genreList : {},
 		year: {
 			label: "year",
-			min: 1970,
+			min: 1960,
 			max: 2018,
 			step: 1,
 			value: { min: 2000, max: 2018 }
@@ -26,11 +28,23 @@ class Discover extends Component{
 			max: 200,
 			step: 15,
 			value: { min: 60, max: 150 }
-		}
+		},
+		isLoading: true,
+		sortBy: "desc",
+		moviesUrl: `https://api.themoviedb.org/3/discover/movie?api_key=b41936b8ed0f4f2f3e076cf8f2d3af29&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`
+	}
+	
+	componentDidMount(){
+		const url = 'https://api.themoviedb.org/3/genre/movie/list?api_key=b41936b8ed0f4f2f3e076cf8f2d3af29&language=en-US';
+		fetch(url).then(result => result.json()).then(genreList => this.setState({genreList, isLoading: false}));
 	}
 	
 	onGenreChange = event => {
 		this.setState({genre : event.target.value});
+	}
+	
+	onSortChange = event => {
+		this.setState({sortBy : event.target.value});
 	}
 	
 	onChange = data => {
@@ -43,20 +57,56 @@ class Discover extends Component{
 				value: data.value
 			}
 		});
-	};
+	}
+	
+	generateUrl = () => {
+    const {genreList, year, rating, runtime } = this.state;
+    const selectedGenre = genreList.genres.find( genre => genre.name === this.state.genre);
+    const genreId = (selectedGenre ? selectedGenre.id : undefined);
+
+    const moviesUrl = `https://api.themoviedb.org/3/discover/movie?` +
+      `api_key=b41936b8ed0f4f2f3e076cf8f2d3af29&` +
+			`language=en-US&sort_by=popularity.${this.state.sortBy}&` +
+			`include_adult=false&include_video=false&` +
+      (genreId ? `with_genres=${genreId}&` : "") +
+      `primary_release_date.gte=${year.value.min}-01-01&` +
+      `primary_release_date.lte=${year.value.max}-12-31&` +
+      `vote_average.gte=${rating.value.min}&` +
+      `vote_average.lte=${rating.value.max}&` +
+      `with_runtime.gte=${runtime.value.min}&` +
+      `with_runtime.lte=${runtime.value.max}&` +
+      `page=1&`;
+
+    this.setState({ moviesUrl });
+  }
 	
 	render(){
 		return(
 			<div className="item-detail-container">
-				<Slider data={this.state.year} onChange={this.onChange} />
-        <Slider data={this.state.rating} onChange={this.onChange} />
-        <Slider data={this.state.runtime} onChange={this.onChange} />
+			
+				<div className="discover-navigation">
+					<Slider data={this.state.year} onChange={this.onChange} />
+	        <Slider data={this.state.rating} onChange={this.onChange} />
+	        <Slider data={this.state.runtime} onChange={this.onChange} />
+					
+					<Genres genres={this.state.genreList} isLoading={this.state.isLoading} onGenreChange={this.onGenreChange}/>
+					
+					<select onChange={this.onSortChange} value={this.state.sortBy} name="Sort">
+						<option value="desc">Descending</option>
+						<option value="asc">Ascending</option>
+					</select>
+					
+					<button onClick={this.generateUrl}> Search </button>
+				</div>
 				
-				<Genres onGenreChange={this.onGenreChange}/>
+				<DiscoverList key={this.state.moviesUrl} moviesUrl={this.state.moviesUrl}/>
+				
 			</div>
 		)
 	}
 }
+
+// SLIDER 
 
 class Slider extends Component {
 	
@@ -87,21 +137,12 @@ class Slider extends Component {
   }
 }
 
+// GENRES
+
 class Genres extends Component{
-	
-	state = {
-		genres : {},
-		isLoading : true
-	}
-	
-	componentDidMount(){
-		const url = 'https://api.themoviedb.org/3/genre/movie/list?api_key=b41936b8ed0f4f2f3e076cf8f2d3af29&language=en-US';
-		fetch(url).then(result => result.json()).then(genres => this.setState({genres, isLoading: false}));
-	}
-	
 	render(){
 		
-		if (this.state.isLoading) {
+		if (this.props.isLoading) {
 			return(
 				<select name="genres">
 					<option>Loading</option>
@@ -109,17 +150,47 @@ class Genres extends Component{
 			)
 		}
 		
-		const {genres} = this.state.genres;
+		const {genres} = this.props.genres;
 		
 		return(
-			<select value={genres[0].name} onChange={this.props.onGenreChange} name="genres">
+			<select onChange={this.props.onGenreChange} name="genres">
 				{genres.map(({name, id}) => (
 					<option key={id} value={name}>{name}</option>
 				))}
+				<option value="none">None</option>
 			</select>
 		)
 	}
 }
 
+// MOVIES
+
+class DiscoverList extends Component{
+	
+	state = {
+		movies : {},
+		isLoading: true
+	}
+	
+	componentDidMount(){
+		const url = this.props.moviesUrl;
+		fetch(url).then(result => result.json()).then(movies => this.setState({movies, isLoading: false}));
+	}
+	
+	
+	render(){
+		if (this.state.isLoading) {
+			return(
+				<h1>Loading</h1>
+			)
+		}
+		
+		return(
+			<div className="discover-movies">
+				<DisplayItems type="movie" item={this.state.movies.results} />
+			</div>
+		)
+	}
+}
 
 export default Discover;
