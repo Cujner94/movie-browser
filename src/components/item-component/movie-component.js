@@ -42,7 +42,7 @@ class MovieComponent extends Component{
 		if (this.state.isLoading) { // IF DATA IS NOT FETCHED DISPLAY LOADING TO ESCAPE ERRORS
 			return (
 				<div className="item-detail-container">
-					<h1>Loading</h1>
+					<h1 className="loading">Loading</h1>
 				</div>
 			)
 		}
@@ -156,41 +156,39 @@ class MovieComponent extends Component{
 	}
 }
 
-class Trailers extends Component{
-	render(){
-		const trailers = this.props.trailers;
+const Trailers = props => {
+	const trailers = props.trailers;
 		
-		return(
-			<Fragment>
+	return(
+		<Fragment>
+			<iframe
+				width="280" 
+				height="170" 
+				src={`https://www.youtube.com/embed/${trailers[0].key}`} 
+				frameBorder="0" 
+				allow="autoplay; encrypted-media" 
+				allowFullScreen>
+			</iframe>
+			{trailers.length>=3 ? (<Fragment>
 				<iframe
 					width="280" 
 					height="170" 
-					src={`https://www.youtube.com/embed/${trailers[0].key}`} 
+					src={`https://www.youtube.com/embed/${trailers[1].key}`} 
 					frameBorder="0" 
 					allow="autoplay; encrypted-media" 
 					allowFullScreen>
 				</iframe>
-				{trailers.length>=3 ? (<Fragment>
-					<iframe
-						width="280" 
-						height="170" 
-						src={`https://www.youtube.com/embed/${trailers[1].key}`} 
-						frameBorder="0" 
-						allow="autoplay; encrypted-media" 
-						allowFullScreen>
-					</iframe>
-					<iframe 
-						width="280" 
-						height="170" 
-						src={`https://www.youtube.com/embed/${trailers[2].key}`} 
-						frameBorder="0" 
-						allow="autoplay; encrypted-media" 
-						allowFullScreen>
-					</iframe>
-				</Fragment>): ""}
-			</Fragment>
-		)
-	}
+				<iframe 
+					width="280" 
+					height="170" 
+					src={`https://www.youtube.com/embed/${trailers[2].key}`} 
+					frameBorder="0" 
+					allow="autoplay; encrypted-media" 
+					allowFullScreen>
+				</iframe>
+			</Fragment>): ""}
+		</Fragment>
+	)
 }
 
 export default MovieComponent;

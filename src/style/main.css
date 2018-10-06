@@ -297,6 +297,11 @@ select{
 	padding: 5px;
 }
 
+.loading{
+	text-align: center;
+	margin: 30px;
+}
+
 /* ================== MOVIE DETAIL CONTAINER ==================== */
 
 #movie-details{

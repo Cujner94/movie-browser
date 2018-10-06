@@ -32,7 +32,11 @@ class PersonComponent extends Component{
 	render(){
 		
 		if (this.state.isLoading) { // IF DATA IS NOT FETCHED DISPLAY LOADING TO ESCAPE ERRORS
-			return <h1>Loading</h1>
+			return (
+				<div className="item-detail-container">
+					<h1 className="loading">Loading</h1>
+				</div>
+  		)
 		}
 		
 		

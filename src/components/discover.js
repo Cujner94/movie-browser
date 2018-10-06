@@ -139,28 +139,25 @@ class Slider extends Component {
 
 // GENRES
 
-class Genres extends Component{
-	render(){
-		
-		if (this.props.isLoading) {
-			return(
-				<select name="genres">
-					<option>Loading</option>
-				</select>
-			)
-		}
-		
-		const {genres} = this.props.genres;
-		
+const Genres = props => {
+	if (props.isLoading) {
 		return(
-			<select onChange={this.props.onGenreChange} name="genres">
-				{genres.map(({name, id}) => (
-					<option key={id} value={name}>{name}</option>
-				))}
-				<option value="none">None</option>
+			<select name="genres">
+				<option>Loading</option>
 			</select>
 		)
 	}
+	
+	const {genres} = props.genres;
+	
+	return(
+		<select onChange={props.onGenreChange} name="genres">
+			{genres.map(({name, id}) => (
+				<option key={id} value={name}>{name}</option>
+			))}
+			<option value="none">None</option>
+		</select>
+	)
 }
 
 // MOVIES
@@ -181,7 +178,7 @@ class DiscoverList extends Component{
 	render(){
 		if (this.state.isLoading) {
 			return(
-				<h1>Loading</h1>
+				<h1 className="loading">Loading</h1>
 			)
 		}
 		
