@@ -53,7 +53,7 @@ class App extends Component{
 						<Switch>
 							<Route exact path="/" component={Home}/>
 							<Route path="/about/:searchType" component={ItemDetails}/>
-							<Route path="/discover" component={Discover}/>
+							<Route path="/discover/:type" component={Discover}/>
 							<Route path="/:searchType/:query" component={Search}/>
 							<Route component={Home}/>
 						</Switch>

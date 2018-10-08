@@ -31,12 +31,20 @@ class Discover extends Component{
 		},
 		isLoading: true,
 		sortBy: "desc",
-		moviesUrl: `https://api.themoviedb.org/3/discover/movie?api_key=b41936b8ed0f4f2f3e076cf8f2d3af29&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`
+		discoverUrl: `https://api.themoviedb.org/3/discover/${this.props.match.params.type}?api_key=b41936b8ed0f4f2f3e076cf8f2d3af29&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`
 	}
 	
 	componentDidMount(){
-		const url = 'https://api.themoviedb.org/3/genre/movie/list?api_key=b41936b8ed0f4f2f3e076cf8f2d3af29&language=en-US';
+		const url = `https://api.themoviedb.org/3/genre/${this.props.match.params.type}/list?api_key=b41936b8ed0f4f2f3e076cf8f2d3af29&language=en-US`;
 		fetch(url).then(result => result.json()).then(genreList => this.setState({genreList, isLoading: false}));
+	}
+	
+	componentDidUpdate(prevProps) {
+		if (this.props.match.params.type !== prevProps.match.params.type) {
+			this.setState({discoverUrl: `https://api.themoviedb.org/3/discover/${this.props.match.params.type}?api_key=b41936b8ed0f4f2f3e076cf8f2d3af29&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`});
+			const url = `https://api.themoviedb.org/3/genre/${this.props.match.params.type}/list?api_key=b41936b8ed0f4f2f3e076cf8f2d3af29&language=en-US`;
+			fetch(url).then(result => result.json()).then(genreList => this.setState({genreList, isLoading: false}));
+		}
 	}
 	
 	onGenreChange = event => {
@@ -62,44 +70,47 @@ class Discover extends Component{
 	generateUrl = () => {
     const {genreList, year, rating, runtime } = this.state;
     const selectedGenre = genreList.genres.find( genre => genre.name === this.state.genre);
-    const genreId = (selectedGenre ? selectedGenre.id : undefined);
+		const genreId = (selectedGenre ? selectedGenre.id : undefined);
 
-    const moviesUrl = `https://api.themoviedb.org/3/discover/movie?` +
+    const discoverUrl = `https://api.themoviedb.org/3/discover/${this.props.match.params.type}?` +
       `api_key=b41936b8ed0f4f2f3e076cf8f2d3af29&` +
 			`language=en-US&sort_by=popularity.${this.state.sortBy}&` +
 			`include_adult=false&include_video=false&` +
       (genreId ? `with_genres=${genreId}&` : "") +
-      `primary_release_date.gte=${year.value.min}-01-01&` +
-      `primary_release_date.lte=${year.value.max}-12-31&` +
+      `${this.props.match.params.type == "movie" ? "primary_release_date" : "first_air_date"}.gte=${year.value.min}-01-01&` +
+      `${this.props.match.params.type == "movie" ? "primary_release_date" : "first_air_date"}.lte=${year.value.max}-12-31&` +
       `vote_average.gte=${rating.value.min}&` +
       `vote_average.lte=${rating.value.max}&` +
-      `with_runtime.gte=${runtime.value.min}&` +
-      `with_runtime.lte=${runtime.value.max}&` +
+      (this.props.match.params.type == "movie" ? `with_runtime.gte=${runtime.value.min}&with_runtime.lte=${runtime.value.max}&` : "") +
       `page=1&`;
 
-    this.setState({ moviesUrl });
+    this.setState({ discoverUrl });
   }
 	
 	render(){
 		return(
-			<div className="item-detail-container">
+			<div key={this.props.match.params.type} className="item-detail-container">
 			
 				<div className="discover-navigation">
-					<Slider data={this.state.year} onChange={this.onChange} />
-	        <Slider data={this.state.rating} onChange={this.onChange} />
-	        <Slider data={this.state.runtime} onChange={this.onChange} />
+					<section className="discover-sliders">
+						<Slider data={this.state.year} onChange={this.onChange} />
+		        <Slider data={this.state.rating} onChange={this.onChange} />
+		        {this.props.match.params.type == "movie" && <Slider data={this.state.runtime} onChange={this.onChange} />}
+					</section>
 					
-					<Genres genres={this.state.genreList} isLoading={this.state.isLoading} onGenreChange={this.onGenreChange}/>
-					
-					<select onChange={this.onSortChange} value={this.state.sortBy} name="Sort">
-						<option value="desc">Descending</option>
-						<option value="asc">Ascending</option>
-					</select>
-					
-					<button onClick={this.generateUrl}> Search </button>
+					<section className="discover-buttons">
+						<Genres key={this.state.discoverUrl} genres={this.state.genreList} isLoading={this.state.isLoading} onGenreChange={this.onGenreChange}/>
+						
+						<select onChange={this.onSortChange} value={this.state.sortBy} name="Sort">
+							<option value="desc">Descending</option>
+							<option value="asc">Ascending</option>
+						</select>
+						
+						<button className="discover-search" onClick={this.generateUrl}> Search </button>
+					</section>
 				</div>
 				
-				<DiscoverList key={this.state.moviesUrl} moviesUrl={this.state.moviesUrl}/>
+				<DiscoverList key={this.state.discoverUrl} type={this.props.match.params.type} discoverUrl={this.state.discoverUrl}/>
 				
 			</div>
 		)
@@ -170,7 +181,7 @@ class DiscoverList extends Component{
 	}
 	
 	componentDidMount(){
-		const url = this.props.moviesUrl;
+		const url = this.props.discoverUrl;
 		fetch(url).then(result => result.json()).then(movies => this.setState({movies, isLoading: false}));
 	}
 	
@@ -184,7 +195,7 @@ class DiscoverList extends Component{
 		
 		return(
 			<div className="discover-movies">
-				<DisplayItems type="movie" item={this.state.movies.results} />
+				<DisplayItems type={this.props.type} item={this.state.movies.results} />
 			</div>
 		)
 	}
