@@ -84,6 +84,40 @@ class MovieComponent extends Component{
 								<p>Vote Average: {vote_average}</p>
 							</div>
 							
+							<section>
+								<div>
+									<div>
+										<p>Runtime</p>
+									</div>
+									<div>
+										
+									</div>
+								</div>
+								<div>
+									<div>
+										<p>Release Date</p>
+									</div>
+									<div>
+										
+									</div>
+								</div>
+								<div>
+									<div>
+										<p>Vote Average</p>
+									</div>
+									<div>
+										
+									</div>
+								</div>
+								<div>
+									<div>
+										<p>Genres</p>
+									</div>
+									<div>
+										
+									</div>
+								</div>
+							</section>
 							
 							<div className="simple-info">
 								{genres.map(({id, name}) =>(

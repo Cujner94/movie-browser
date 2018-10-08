@@ -6,7 +6,7 @@ import 'react-input-range/lib/css/index.css';
 
 class Discover extends Component{
 	state = {
-		genre: "Action",
+		genre: "",
 		genreList : {},
 		year: {
 			label: "year",
@@ -81,7 +81,6 @@ class Discover extends Component{
       `${this.props.match.params.type == "movie" ? "primary_release_date" : "first_air_date"}.lte=${year.value.max}-12-31&` +
       `vote_average.gte=${rating.value.min}&` +
       `vote_average.lte=${rating.value.max}&` +
-      (this.props.match.params.type == "movie" ? `with_runtime.gte=${runtime.value.min}&with_runtime.lte=${runtime.value.max}&` : "") +
       `page=1&`;
 
     this.setState({ discoverUrl });
@@ -95,7 +94,6 @@ class Discover extends Component{
 					<section className="discover-sliders">
 						<Slider data={this.state.year} onChange={this.onChange} />
 		        <Slider data={this.state.rating} onChange={this.onChange} />
-		        {this.props.match.params.type == "movie" && <Slider data={this.state.runtime} onChange={this.onChange} />}
 					</section>
 					
 					<section className="discover-buttons">
@@ -163,10 +161,10 @@ const Genres = props => {
 	
 	return(
 		<select onChange={props.onGenreChange} name="genres">
+			<option value="none">None</option>
 			{genres.map(({name, id}) => (
 				<option key={id} value={name}>{name}</option>
 			))}
-			<option value="none">None</option>
 		</select>
 	)
 }
