@@ -68,12 +68,21 @@ ol, ul, li {
 #form-container{
 	display: grid;
 	justify-content: center;
-	grid-template-columns: auto 150px;
+	grid-template-columns: auto 150px 100px;
 	margin: 10px 0 20px 0;
 }
 
 .form{
 	position: relative;		
+}
+
+.form-search{
+	width: 100px;
+	height: 100%;
+	margin-left: 5px;
+	border-radius: 5px;
+	font-size: 1.6rem;
+	font-weight: 600;
 }
 
 input{

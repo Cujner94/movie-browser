@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
 import style from "./style/main.css";
 import Home from './components/home';
@@ -31,7 +31,7 @@ class App extends Component{
 						
 						<section id="form-container">
 						
-							<form className="form" autoComplete="off" action={`/${this.state.searchType}/${this.state.query}`} method="GET">
+							<form className="form" autoComplete="off">
 								<input id="query" type="text" onChange={this.handleChange} value={this.state.query} placeholder="Search..."/>
 								<span className="focus-border"></span>
 							</form>
@@ -40,6 +40,9 @@ class App extends Component{
 								<option value="tv">Tv Shows</option>
 								<option value="person">People</option>
 							</select>
+							<Link to={`/${this.state.searchType}/${this.state.query}`}>
+								<button className="form-search">Search</button>
+							</Link>
 							
 						</section>
 						
