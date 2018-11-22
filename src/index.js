@@ -20,6 +20,10 @@ class App extends Component{
 		this.setState({[e.target.id]: e.target.value})
 	}
 	
+	handleSubmit = (e) => {
+		e.preventDefault();
+	}
+	
 	render(){
 		return(
 			<Router>
@@ -31,7 +35,7 @@ class App extends Component{
 						
 						<section id="form-container">
 						
-							<form className="form" autoComplete="off">
+							<form onSubmit={this.handleSubmit} className="form" autoComplete="off">
 								<input id="query" type="text" onChange={this.handleChange} value={this.state.query} placeholder="Search..."/>
 								<span className="focus-border"></span>
 							</form>
