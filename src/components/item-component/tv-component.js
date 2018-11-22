@@ -79,22 +79,52 @@ class TvComponent extends Component{
 					<div className="tv-description">
 						<h1>{name}</h1>
 						
+						<section className="item-stats">
+								<div>
+									<div className="item-stats-main">
+										<p>Seasons</p>
+									</div>
+									<div className="item-stats-stats">
+										<p>{number_of_seasons} ({number_of_episodes} episodes)</p>
+									</div>
+								</div>
+								<div>
+									<div className="item-stats-main">
+										<p>First Air</p>
+									</div>
+									<div className="item-stats-stats">
+										<p>{displayDate(first_air_date)}</p>
+									</div>
+									<div className="item-stats-main">
+										<p>Last episode</p>
+									</div>
+									<div className="item-stats-stats">
+										<p>{displayDate(last_air_date)}</p>
+										<span>({status})</span>
+									</div>
+								</div>
+								<div>
+									<div className="item-stats-main">
+										<p>Vote Average</p>
+									</div>
+									<div className="item-stats-stats">
+										<p>{vote_average}</p>
+									</div>
+								</div>
+								<div>
+									<div className="item-stats-main">
+										<p>Genres</p>
+									</div>
+									<div className="item-stats-stats">
+										{genres.map(({id, name}) =>(
+											<p className="movie-genre" key={id}>{name}</p>
+										))}
+									</div>
+								</div>
+							</section>
 						
-						<div className="simple-info">
-							<p>Seasons: {number_of_seasons} ({number_of_episodes} episodes)</p>
-							<p>First air : {displayDate(first_air_date)}</p>
-							<p>Last episode : {displayDate(last_air_date)}</p>
-							<span>({status})</span>
-						</div>
+						<p id="tv-overview">{overview}</p>
 						
-						<div className="simple-info">
-							{genres.map(({id, name}) =>(
-								<p className="movie-genre" key={id}>{name}</p>
-								))}
-						</div>
-						
-						<p>{overview}</p>
-						<p><b>Vote Average:</b> {vote_average}</p>
 					</div>
 				</div>
 				

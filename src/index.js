@@ -33,11 +33,9 @@ class App extends Component{
 						
 						<section id="form-container">
 						
-							<form autoComplete="off" action={`/${this.state.searchType}/${this.state.query}`} method="GET">
-								<div className="input-container">
-									<input id="query" type="text" onChange={this.handleChange} value={this.state.query} placeholder="Search..."/>
-									<span className="focus-border"></span>
-								</div>
+							<form className="input-container" autoComplete="off" action={`/${this.state.searchType}/${this.state.query}`} method="GET">
+								<input id="query" type="text" onChange={this.handleChange} value={this.state.query} placeholder="Search..."/>
+								<span className="focus-border"></span>
 							</form>
 							<select onChange={this.handleChange} name="type" value={this.state.searchType} id="searchType">
 								<option value="movie">Movies</option>

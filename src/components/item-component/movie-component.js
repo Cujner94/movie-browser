@@ -76,54 +76,42 @@ class MovieComponent extends Component{
 						<div className="movie-text">
 							<h1>{title}</h1>
 							
-							<div className="simple-info">
-								<p>{runtime ? `${runtime}min` : "Unknown"}</p>
-								<p>|</p>
-								<p>{release_date ? `${displayDate(release_date)} (${status})` : `Unknown (${status})` }</p>
-								<p>|</p>
-								<p>Vote Average: {vote_average}</p>
-							</div>
-							
-							<section>
+							<section className="item-stats">
 								<div>
-									<div>
+									<div className="item-stats-main">
 										<p>Runtime</p>
 									</div>
-									<div>
-										
+									<div className="item-stats-stats">
+										<p>{runtime ? `${runtime}min` : "Unknown"}</p>
 									</div>
 								</div>
 								<div>
-									<div>
+									<div className="item-stats-main">
 										<p>Release Date</p>
 									</div>
-									<div>
-										
+									<div className="item-stats-stats">
+										<p>{release_date ? `${displayDate(release_date)} (${status})` : `Unknown (${status})` }</p>
 									</div>
 								</div>
 								<div>
-									<div>
+									<div className="item-stats-main">
 										<p>Vote Average</p>
 									</div>
-									<div>
-										
+									<div className="item-stats-stats">
+										<p>{vote_average}</p>
 									</div>
 								</div>
 								<div>
-									<div>
+									<div className="item-stats-main">
 										<p>Genres</p>
 									</div>
-									<div>
-										
+									<div className="item-stats-stats">
+										{genres.map(({id, name}) =>(
+											<p className="movie-genre" key={id}>{name}</p>
+										))}
 									</div>
 								</div>
 							</section>
-							
-							<div className="simple-info">
-								{genres.map(({id, name}) =>(
-									<p className="movie-genre" key={id}>{name}</p>
-								))}
-							</div>
 							
 							<p id="movie-overview">{overview}</p>
 						</div>

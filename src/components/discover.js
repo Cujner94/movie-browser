@@ -109,7 +109,6 @@ class Discover extends Component{
 				</div>
 				
 				<DiscoverList key={this.state.discoverUrl} type={this.props.match.params.type} discoverUrl={this.state.discoverUrl}/>
-				
 			</div>
 		)
 	}
@@ -194,6 +193,26 @@ class DiscoverList extends Component{
 		return(
 			<div className="discover-movies">
 				<DisplayItems type={this.props.type} item={this.state.movies.results} />
+			</div>
+		)
+	}
+}
+
+class PageNavigation extends Component{
+	
+	createPage = () => {
+		const pages = [];
+		
+		for(let i = 1; i<=10; i++){
+			pages.push(<button onClick={this.props.onPageChange} key={i}>{i}</button>)
+		}
+		
+		return pages;
+	}
+	render(){
+		return(
+			<div>
+				{this.createPage()}
 			</div>
 		)
 	}

@@ -300,6 +300,29 @@ select{
 	margin: 30px;
 }
 
+.item-stats-main{
+	height: 30px;
+	font-weight: 700;
+	padding: 5px;
+}
+
+.item-stats-stats{
+	font-size: 1.9rem;
+	opacity: 0.8;
+	padding: 5px;
+	font-weight: 300;
+}
+
+.item-stats{
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	background-color: #0a205c;
+	text-align: center;
+	font-size: 1.8rem;
+	color: #eeeeee;
+	margin-top: 10px;
+}
+
 /* ================== MOVIE DETAIL CONTAINER ==================== */
 
 #movie-details{
@@ -323,12 +346,16 @@ select{
 	grid-template-rows: 2fr 1.3fr;
 }
 
+.movie-genre{
+	display: inline;
+}
+
 .movie-genre:not(:last-child)::after{
-	content: " |";
+	content: ", ";
 }
 
 #movie-overview{
-	margin-top: 40px;
+	margin: 20px 0;
 	font-size: 1.8rem;
 	font-weight: 400;
 	letter-spacing: -0.4px;
@@ -415,6 +442,10 @@ select{
 	opacity: 0.5;
 	font-size: 1.5rem;
 	margin-bottom: 5px;
+}
+
+#tv-overview{
+	margin: 20px 0;
 }
 
 .season-grid{
@@ -614,6 +645,9 @@ select{
 	width: 100%;
 	opacity: 0;
 	transform: translate3d(0,10px,0);
+	text-decoration: none;
+	color: white;
+	text-align: center;
 }
 
 .item-container:hover figcaption::before, .item-container:hover p{
@@ -710,4 +744,17 @@ select{
 .discover-buttons{
 	align-self: center;
 	justify-self: center;
+}
+
+/* ================== SEARCH ==================== */
+
+.search-results{
+	margin-top: 50px;
+	display: grid;
+	grid-template-columns: repeat(auto-fit,185px);
+	grid-gap: 15px;
+}
+
+.search-results .item-container{
+	overflow: hidden;
 }

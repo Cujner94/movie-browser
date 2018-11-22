@@ -28,13 +28,13 @@ class Search extends Component{
 		const results = this.state.data.results || [];
 		const searchType = this.props.match.params.searchType;
 		return(
-			<div>
+			<div className="search-results">
 				{results.map(({id, poster_path,title, name, profile_path}) => (
 					<Link key={id} to={`/about/${searchType}?id=${id}`} className="item-container">
-						<li>
 							<img src={`https://image.tmdb.org/t/p/w185${poster_path || profile_path}`} alt="Poster"/>
-							<p>{title || name}</p>
-						</li>
+							<figcaption>
+								<p>{title || name}</p>
+							</figcaption>
 					</Link>
 				))}
 			</div>
