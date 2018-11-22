@@ -41,7 +41,7 @@ class App extends Component{
 								<option value="person">People</option>
 							</select>
 							<Link to={`/${this.state.searchType}/${this.state.query}`}>
-								<button className="form-search">Search</button>
+								<button className="form-search">Search!</button>
 							</Link>
 							
 						</section>
