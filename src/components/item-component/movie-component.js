@@ -16,7 +16,6 @@ class MovieComponent extends Component{
 		isLoading: true
 	}
 	
-	
 	componentDidMount(){
 		const id = this.props.id;
 		const API_KEY = this.props.apiKey;				
@@ -69,7 +68,7 @@ class MovieComponent extends Component{
 			<div id="movie-details" className="item-detail-container">
 				
 				<div id="movie-top" className="top-container">
-					<img className="item-poster" id="movie-poster" src={imageURL} alt="Movie Poster"/>
+					{poster_path ? <img className="item-poster" id="movie-poster" src={imageURL} alt="Movie Poster"/> : <div className="item-poster" id="movie-poster"/>}
 					
 					<div id="movie-description">
 					

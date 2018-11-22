@@ -72,8 +72,8 @@ ol, ul, li {
 	margin: 10px 0 20px 0;
 }
 
-.input-container{
-	position: relative;
+.form{
+	position: relative;		
 }
 
 input{
@@ -85,6 +85,8 @@ input{
 	background: none;
 	color: var(--main-gray-color);
 	font-weight: 200;
+	width: 60rem;
+	height: 4.5rem;
 }
 
 ::-webkit-input-placeholder{
@@ -119,12 +121,6 @@ input:focus::-moz-placeholder{
 	color: transparent;
 }
 
-
-#query{
-	width: 60rem;
-	height: 4.5rem;
-}
-
 /* ================== SELECT OPTION ==================== */
 
 select{
@@ -149,9 +145,9 @@ select{
 
 /* ================== MAIN PAGE ==================== */
 
-#home-container h1{
+.home-heading{
 	text-align: center;
-	margin: 30px 0;
+	margin: 50px 0;
 }
 
 /* ================== NOW PLAYING ==================== */
@@ -159,14 +155,8 @@ select{
 #now-playing{
 	width: 60%;
 	margin: auto;
-	margin-top: 50px;
 	text-align: center;
 	position: relative;
-}
-
-#now-playing h2{
-	height: 45px;
-	padding: 7px;
 }
 
 #now-playing-items{
@@ -180,19 +170,13 @@ select{
 	scroll-behavior: smooth;
 }
 
+#now-playing h2{
+	height: 45px;
+	padding: 7px;
+}
 
 #now-playing-items .item-container{
 	overflow: hidden;
-}
-
-#now-playing-items a{
-	overflow: hidden;
-	color: #e6e6e6;
-	font-weight: 700;
-	text-decoration: none;
-	font-size: 1.7rem;
-	background-color: #2e2e2e;
-	border-radius: 5px;
 }
 
 .scroll-button{
@@ -215,7 +199,6 @@ select{
 	transform: scale(1);
 	transition: all 500ms cubic-bezier(0.615, -0.470, 0.650, 0.690);
 }
-
 
 #down{
 	bottom: 3px;
@@ -250,7 +233,7 @@ select{
 	grid-gap: 20px;
 	padding: 25px;
 	background-color: #081a4b;
-	color: #eeeeee;
+	color: var(--light-gray);
 }
 
 .item-poster{
@@ -258,24 +241,8 @@ select{
 	align-self: center;
 }
 
-.simple-info{
-	display: flex;
-	justify-content: center;
-	justify-items: center;
-	text-align: center;
-}
-
-.simple-info p{
-	margin: 0 3px;
-	font-size: 1.5rem;
-	font-weight: 700;
-	opacity: 0.6;
-}
-
 .similar{
 	display: flex;
-	overflow-x: scroll;
-	overflow-y: hidden;
 	scroll-behavior: smooth;	
 	overflow: hidden;
 	border: 2px solid black;
@@ -310,7 +277,7 @@ select{
 	font-size: 1.9rem;
 	opacity: 0.8;
 	padding: 5px;
-	font-weight: 300;
+	font-weight: 400;
 }
 
 .item-stats{
@@ -319,7 +286,6 @@ select{
 	background-color: #0a205c;
 	text-align: center;
 	font-size: 1.8rem;
-	color: #eeeeee;
 	margin-top: 10px;
 }
 
@@ -609,13 +575,23 @@ select{
 	position: relative;
 }
 
+.item-image{
+	height: 100%;
+	background-color: #081a4b;
+}
+
 .item-container img{
 	height: 100%;
 }
 
 .item-container a{
+	overflow: hidden;
+	color: #e6e6e6;
+	font-weight: 700;
 	text-decoration: none;
-	color: white;
+	font-size: 1.7rem;
+	background-color: #2e2e2e;
+	border-radius: 5px;
 	text-align: center;
 }
 
@@ -758,3 +734,4 @@ select{
 .search-results .item-container{
 	overflow: hidden;
 }
+

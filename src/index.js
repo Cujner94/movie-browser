@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Link, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import style from "./style/main.css";
 import Home from './components/home';
@@ -8,9 +8,6 @@ import Search from './components/search';
 import NavBar from './components/nav';
 import Discover from './components/discover';
 import ItemDetails from './components/itemDetail';
-
-const API_KEY = 'b41936b8ed0f4f2f3e076cf8f2d3af29';
-// TODO: MOVE API KEY, LINKS AND OTHER CONST DATA TO OTHER FILE 
 
 class App extends Component{
 	
@@ -29,11 +26,12 @@ class App extends Component{
 				<div>
 					
 					<header id="header">
+					
 						<NavBar/>
 						
 						<section id="form-container">
 						
-							<form className="input-container" autoComplete="off" action={`/${this.state.searchType}/${this.state.query}`} method="GET">
+							<form className="form" autoComplete="off" action={`/${this.state.searchType}/${this.state.query}`} method="GET">
 								<input id="query" type="text" onChange={this.handleChange} value={this.state.query} placeholder="Search..."/>
 								<span className="focus-border"></span>
 							</form>
@@ -44,6 +42,7 @@ class App extends Component{
 							</select>
 							
 						</section>
+						
 					</header>
 					
 					<main id="main-container">

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 
+import DisplayItems from './displayItems';
+
 class Search extends Component{
 	
 	state = {
@@ -28,15 +30,8 @@ class Search extends Component{
 		const results = this.state.data.results || [];
 		const searchType = this.props.match.params.searchType;
 		return(
-			<div className="search-results">
-				{results.map(({id, poster_path,title, name, profile_path}) => (
-					<Link key={id} to={`/about/${searchType}?id=${id}`} className="item-container">
-							<img src={`https://image.tmdb.org/t/p/w185${poster_path || profile_path}`} alt="Poster"/>
-							<figcaption>
-								<p>{title || name}</p>
-							</figcaption>
-					</Link>
-				))}
+			<div className="search-results">			
+				<DisplayItems type={searchType} item={results}/>
 			</div>
 		)
 	}
