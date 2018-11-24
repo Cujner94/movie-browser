@@ -138,7 +138,7 @@ class TvComponent extends Component{
 				</div>
 				
 				
-				{similar.results.length > 0 ? (<div id="movie-similar" className="similar-container-2">
+				{similar.results.length > 0 ? (<div id="tv-similar" className="similar-container-2">
 					<div className="similar">
 						<DisplayItems type="tv" item={similar.results} />
 						<button onClick={this.handleScroll} className="scroll-button" id="left"></button>

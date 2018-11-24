@@ -408,6 +408,7 @@ select{
 
 #movie-similar{
 	grid-area: similar;
+	overflow: hidden;
 }
 
 /* ================== TV DETAILS ==================== */
